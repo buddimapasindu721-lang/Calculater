@@ -3,52 +3,51 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Pasindu Horse Racing Calculator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pasindu Horse Calculator</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;padding:12px;background:#eef2f7;color:#172033;font-family:Arial,sans-serif}
-h1{text-align:center;color:#153e70;font-size:23px}
+body{margin:0;padding:10px;background:#eef2f7;font-family:Arial,sans-serif;color:#172033}
+h1{text-align:center;color:#164578;font-size:23px}
 h2{font-size:18px}
-.panel{background:white;padding:13px;border-radius:12px;margin-bottom:14px;box-shadow:0 2px 7px #0001}
-.small{font-size:12px;color:#5b6575;line-height:1.5}
+.panel{background:white;border-radius:12px;padding:12px;margin-bottom:13px}
+.small{font-size:12px;color:#5d6878;line-height:1.5}
 .scroll{overflow-x:auto}
-table{border-collapse:collapse;width:100%;min-width:510px;font-size:13px}
-th,td{padding:7px 4px;border-bottom:1px solid #e1e6ed;text-align:center}
-th{background:#e7eef7}
-input,select{width:100%;min-width:0;padding:9px;border:1px solid #cbd5e1;border-radius:7px;background:white}
-input[type=checkbox]{width:19px;height:19px}
+table{border-collapse:collapse;width:100%;min-width:510px}
+th,td{padding:6px 4px;border-bottom:1px solid #ddd;text-align:center;font-size:13px}
+th{background:#e5edf7}
+input,select{padding:9px;border:1px solid #bcc9d8;border-radius:7px;width:100%;min-width:0;background:white;font-size:16px}
+input[type=checkbox]{width:20px;height:20px}
 .odds{min-width:100px}
-.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
-button{border:0;border-radius:8px;padding:11px;background:#e1e8f0;font-weight:bold;cursor:pointer}
-button.active{background:#1757a5;color:white}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+button{padding:11px;border:0;border-radius:8px;background:#e2e8f0;font-weight:bold;font-size:14px}
+button.active{background:#1557a5;color:white}
 .fields{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 label{font-size:13px;display:block;margin-bottom:5px}
-.result{background:#e9f7ed;border-radius:9px;padding:12px;margin-top:10px}
-.amount{font-size:22px;font-weight:bold;color:#14723b;overflow-wrap:anywhere}
-.reset{width:100%;margin-top:12px;background:#b42318;color:white}
-@media(max-width:380px){body{padding:6px}.panel{padding:9px}.tabs{grid-template-columns:repeat(2,1fr)}}
+.result{background:#e8f7ec;padding:12px;border-radius:9px;margin-top:10px}
+.amount{font-size:22px;font-weight:bold;color:#13713a;overflow-wrap:anywhere}
+.clear{background:#b42318;color:white;width:100%;margin-top:12px}
+@media(max-width:380px){.tabs{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
-<h1>🏇 PASINDU Horse Calculator</h1>
+<h1>🏇 PASINDU HORSE CALCULATOR</h1>
 
 <div class="panel">
-<h2>1. Horse Selections</h2>
-<p class="small">Odds are TEXT fields. Examples: 15/2, 5/1, 2.75, EVS.</p>
+<h2>Horse Selections (10)</h2>
+<p class="small">Odds boxes accept text: 15/2, 5/1, 2.75, EVS.</p>
 <div class="scroll">
 <table>
-<thead><tr>
-<th>Use</th><th>Horse</th><th>Odds (Text)</th>
-<th>NR</th><th>Rule 4</th><th>Place</th>
-</tr></thead>
+<thead>
+<tr><th>Use</th><th>Horse</th><th>Odds (TEXT)</th><th>NR</th><th>Rule 4</th><th>Place</th></tr>
+</thead>
 <tbody id="horses"></tbody>
 </table>
 </div>
 </div>
 
 <div class="panel">
-<h2>2. Bet Type</h2>
+<h2>Bet Type</h2>
 <div class="tabs" id="tabs">
 <button class="active" data-type="Single">Single</button>
 <button data-type="Double">Double</button>
@@ -61,79 +60,82 @@ label{font-size:13px;display:block;margin-bottom:5px}
 </div>
 
 <div class="panel">
-<h2 id="betTitle">3. Stakes</h2>
+<h2 id="betTitle">Stakes</h2>
 <div class="fields">
-<div><label for="winStake">Win Stake (Rs.)</label><input id="winStake" type="number" min="0" step="any" value="100"></div>
-<div><label for="placeStake">Place Stake (Rs.)</label><input id="placeStake" type="number" min="0" step="any" value="100"></div>
-<div><label for="fraction">Place Fraction</label><select id="fraction"><option value=".25">1/4</option><option value=".20">1/5</option></select></div>
-<div><label for="currency">Currency</label><select id="currency"><option value="Rs.">Rs.</option><option value="">No symbol</option></select></div>
+<div><label>Win Stake</label><input id="winStake" type="number" min="0" value="100"></div>
+<div><label>Place Stake</label><input id="placeStake" type="number" min="0" value="100"></div>
+<div><label>Place Fraction</label>
+<select id="fraction"><option value="0.25">1/4</option><option value="0.20">1/5</option></select></div>
+<div><label>Currency</label>
+<select id="currency"><option value="Rs.">Rs.</option><option value="">No symbol</option></select></div>
+</div>
+
+<div class="result">
+Win Return (including stake)
+<div class="amount" id="winReturn">Rs. 0.00</div>
+<p class="small" id="winDetails"></p>
 </div>
 <div class="result">
-<div>Win Return (including stake)</div>
-<div id="winReturn" class="amount">Rs. 0.00</div>
-<p id="winDetails" class="small"></p>
+Place Return (including stake)
+<div class="amount" id="placeReturn">Rs. 0.00</div>
+<p class="small" id="placeDetails"></p>
 </div>
 <div class="result">
-<div>Place Return (including stake)</div>
-<div id="placeReturn" class="amount">Rs. 0.00</div>
-<p id="placeDetails" class="small"></p>
+Combined Return
+<div class="amount" id="combined">Rs. 0.00</div>
 </div>
-<div class="result">
-<div>Combined Return</div>
-<div id="combined" class="amount">Rs. 0.00</div>
-</div>
-<p id="warning" class="small"></p>
-<button id="clear" class="reset">Clear All</button>
+<p class="small" id="warning"></p>
+<button class="clear" id="clear">CLEAR ALL</button>
 </div>
 
 <div class="panel">
-<h2>Odds Examples</h2>
+<h2>Odds Converter</h2>
 <p class="small">
 15/2 = 8.50 decimal odds<br>
 5/1 = 6.00 decimal odds<br>
 2/1 = 3.00 decimal odds<br>
 2.75 = 2.75 decimal odds<br>
-EVS / EVENS = 2.00 decimal odds<br>
-NR is treated as odds 1.00.<br><br>
-Rule 4 and place returns are estimates. Actual bookmaker settlement rules may differ.
+EVS = 2.00 decimal odds<br>
+NR is treated as odds 1.00.
 </p>
+<label>Test odds here</label>
+<input id="testOdds" type="text" placeholder="Type 15/2 here" autocomplete="off" autocapitalize="characters" spellcheck="false">
+<p id="testResult" class="amount"></p>
 </div>
 
 <script>
-const tbody=document.getElementById("horses");
+const horses=document.getElementById("horses");
 
 for(let i=1;i<=10;i++){
  const tr=document.createElement("tr");
  tr.innerHTML=`
- <td><input type="checkbox" class="use" aria-label="Select horse ${i}"></td>
+ <td><input type="checkbox" class="use"></td>
  <td>Horse ${i}</td>
- <td><input type="text" class="odds" placeholder="15/2" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="Horse ${i} odds"></td>
- <td><input type="checkbox" class="nr" aria-label="Horse ${i} non-runner"></td>
- <td><select class="rule" aria-label="Horse ${i} Rule 4">
+ <td><input type="text" class="odds" placeholder="15/2" autocomplete="off" autocapitalize="characters" spellcheck="false"></td>
+ <td><input type="checkbox" class="nr"></td>
+ <td><select class="rule">
  <option value="0">Off</option><option value="5">5%</option>
  <option value="10">10%</option><option value="15">15%</option>
  <option value="20">20%</option><option value="25">25%</option>
  <option value="30">30%</option><option value="40">40%</option>
  <option value="50">50%</option></select></td>
- <td><input type="checkbox" class="place" checked aria-label="Horse ${i} place fraction applies"></td>`;
- tbody.appendChild(tr);
+ <td><input type="checkbox" class="place" checked></td>`;
+ horses.appendChild(tr);
 }
 
+/* Convert fractional and decimal odds to decimal odds */
 function parseOdds(value){
  const s=String(value).trim().toUpperCase().replace(/\s+/g,"");
  if(!s)return NaN;
  if(["EVS","EVEN","EVENS"].includes(s))return 2;
 
- // Fractional odds: 15/2, 5/1, 100/30
- const m=s.match(/^(\d+(?:\.\d+)?)\/(\d+(?:\.\d+)?)$/);
- if(m){
-  const numerator=Number(m[1]);
-  const denominator=Number(m[2]);
+ const f=s.match(/^(\d+(?:\.\d+)?)\/(\d+(?:\.\d+)?)$/);
+ if(f){
+  const denominator=Number(f[2]);
   if(denominator<=0)return NaN;
-  return numerator/denominator+1;
+  return Number(f[1])/denominator+1;
  }
 
- // Decimal odds: 2.75, 8.50
  if(/^\d+(?:\.\d+)?$/.test(s)){
   const n=Number(s);
   return n>=1?n:NaN;
@@ -141,72 +143,67 @@ function parseOdds(value){
  return NaN;
 }
 
-let betType="Single";
-const required={Single:1,Double:2,Triple:3,Quadruple:4,Quint:5,Accumulate:1};
-
 function money(n){
  const c=document.getElementById("currency").value;
  return c+(c?" ":"")+n.toLocaleString("en-LK",{minimumFractionDigits:2,maximumFractionDigits:2});
 }
 
+document.getElementById("testOdds").addEventListener("input",function(){
+ const n=parseOdds(this.value);
+ document.getElementById("testResult").textContent=
+ Number.isFinite(n)?"Decimal odds: "+n.toFixed(2):"";
+});
+
+let betType="Single";
+const required={Single:1,Double:2,Triple:3,Quadruple:4,Quint:5,Accumulate:1};
+
 function calculate(){
- const all=[...tbody.querySelectorAll("tr")];
+ const all=[...horses.querySelectorAll("tr")];
  const selected=all.filter(r=>r.querySelector(".use").checked);
  const needed=required[betType];
  const chosen=betType==="Accumulate"?selected:selected.slice(0,needed);
  const ws=Math.max(0,Number(document.getElementById("winStake").value)||0);
  const ps=Math.max(0,Number(document.getElementById("placeStake").value)||0);
- const fraction=Number(document.getElementById("fraction").value);
- let error="",valid=true,winOdds=1,placeOdds=1;
+ const frac=Number(document.getElementById("fraction").value);
+
+ let winOdds=1,placeOdds=1,error="";
 
  if(selected.length<needed){
-  valid=false;
-  error=betType==="Accumulate"?"Select at least one horse.":`Select at least ${needed} horses for ${betType}.`;
- }
-
- if(valid){
+  error=betType==="Accumulate"?"Select at least one horse.":`Select ${needed} horses for ${betType}.`;
+ }else{
   for(const r of chosen){
    const nr=r.querySelector(".nr").checked;
-   const raw=r.querySelector(".odds").value;
-   const odds=nr?1:parseOdds(raw);
-
+   const odds=nr?1:parseOdds(r.querySelector(".odds").value);
    if(!Number.isFinite(odds)||odds<1){
-    valid=false;
-    error="Enter valid odds for each selected horse, or select NR.";
+    error="Enter valid odds for every selected horse, or mark it NR.";
     break;
    }
-
    const deduction=Number(r.querySelector(".rule").value)/100;
-   const adjustedWin=nr?1:1+(odds-1)*(1-deduction);
-   winOdds*=adjustedWin;
-
-   const eligible=r.querySelector(".place").checked;
-   const adjustedPlace=nr?1:(eligible?1+(odds-1)*fraction:1);
-   placeOdds*=adjustedPlace;
+   winOdds*=nr?1:1+(odds-1)*(1-deduction);
+   placeOdds*=nr?1:(r.querySelector(".place").checked?1+(odds-1)*frac:1);
   }
  }
 
  document.getElementById("warning").textContent=error;
- if(!valid){
+ if(error){
   ["winReturn","placeReturn","combined"].forEach(id=>document.getElementById(id).textContent=money(0));
   document.getElementById("winDetails").textContent="";
   document.getElementById("placeDetails").textContent="";
   return;
  }
 
- const win=ws*winOdds;
- const place=ps*placeOdds;
+ const win=ws*winOdds,place=ps*placeOdds;
  document.getElementById("winReturn").textContent=money(win);
  document.getElementById("placeReturn").textContent=money(place);
  document.getElementById("combined").textContent=money(win+place);
- document.getElementById("winDetails").textContent=`Stake: ${money(ws)} | Estimated decimal odds: ${winOdds.toFixed(3)}`;
- document.getElementById("placeDetails").textContent=`Stake: ${money(ps)} | Estimated decimal odds: ${placeOdds.toFixed(3)}`;
+ document.getElementById("winDetails").textContent="Stake: "+money(ws)+" | Estimated decimal odds: "+winOdds.toFixed(3);
+ document.getElementById("placeDetails").textContent="Stake: "+money(ps)+" | Estimated decimal odds: "+placeOdds.toFixed(3);
 }
 
 function setTab(type){
  betType=type;
  document.querySelectorAll("#tabs button").forEach(b=>b.classList.toggle("active",b.dataset.type===type));
- document.getElementById("betTitle").textContent="3. "+type+" Stakes";
+ document.getElementById("betTitle").textContent=type+" Stakes";
  document.getElementById("tabInfo").textContent=type==="Accumulate"?"All selected horses are included.":`Select at least ${required[type]} horses. The first ${required[type]} selected horses are used.`;
  calculate();
 }
@@ -219,7 +216,7 @@ document.body.addEventListener("input",calculate);
 document.body.addEventListener("change",calculate);
 
 document.getElementById("clear").addEventListener("click",()=>{
- tbody.querySelectorAll("tr").forEach(r=>{
+ horses.querySelectorAll("tr").forEach(r=>{
   r.querySelector(".use").checked=false;
   r.querySelector(".odds").value="";
   r.querySelector(".nr").checked=false;
@@ -228,10 +225,11 @@ document.getElementById("clear").addEventListener("click",()=>{
  });
  document.getElementById("winStake").value=100;
  document.getElementById("placeStake").value=100;
- document.getElementById("fraction").value=".25";
+ document.getElementById("fraction").value="0.25";
+ document.getElementById("testOdds").value="";
+ document.getElementById("testResult").textContent="";
  setTab("Single");
 });
-
 setTab("Single");
 </script>
 </body>
