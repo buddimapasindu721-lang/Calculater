@@ -7,36 +7,37 @@
 <title>PASINDU Horse Racing Calculator</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;padding:8px;background:#101827;color:#f4f7ff;font-family:Arial,sans-serif;font-size:14px}
-h1{text-align:center;color:#54e6b0;font-size:21px;margin:5px 0}
-.subtitle{text-align:center;font-size:11px;margin:0 0 10px;color:#b9c8da}
-.panel{background:#1d293c;padding:9px;border-radius:9px;margin-bottom:9px}
-h2{font-size:14px;color:#54e6b0;margin:3px 0 9px}
-.horse{background:#26354a;padding:7px;border-radius:7px;margin:6px 0}
-.horsehead{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
-.horsehead b{font-size:13px}
+body{margin:0;padding:7px;background:#101827;color:#f4f7ff;font-family:Arial,sans-serif;font-size:13px}
+h1{text-align:center;color:#54e6b0;font-size:21px;margin:5px}
+.sub{text-align:center;font-size:10px;color:#bdc9d9;margin:0 0 10px}
+.panel{background:#1d293c;padding:8px;border-radius:9px;margin-bottom:9px}
+h2{font-size:13px;color:#54e6b0;margin:3px 0 8px}
+.horse{background:#26354a;padding:7px;border-radius:7px;margin:5px 0}
+.hhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.hhead b{font-size:12px}
 .grid{display:grid;grid-template-columns:1.1fr .8fr .8fr;gap:6px}
-label{font-size:10px;color:#cbd5e1;display:block;margin-bottom:3px}
-input,select{width:100%;min-width:0;padding:8px 5px;border-radius:6px;border:1px solid #53647b;background:#101827;color:white;font-size:14px}
-.status{display:flex;align-items:center;gap:4px;font-size:11px}
+label{display:block;font-size:10px;color:#cbd5e1;margin-bottom:3px}
+input,select{width:100%;min-width:0;padding:8px 4px;border:1px solid #53647b;border-radius:6px;background:#101827;color:white;font-size:14px}
+.status{display:flex;align-items:center;gap:4px}
 .status input{width:16px;height:16px}
+.status label{margin:0;font-size:11px}
 .bets{display:grid;grid-template-columns:1fr 1fr;gap:7px}
-.bet{background:#26354a;padding:7px;border-radius:7px}
-.betname{font-weight:bold;font-size:12px;margin-bottom:6px}
+.bet{background:#26354a;border-radius:7px;padding:7px}
+.betname{font-weight:bold;margin-bottom:6px;font-size:12px}
 .stakes{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-button{width:100%;padding:12px;border:0;border-radius:7px;font-weight:bold;font-size:14px;margin:4px 0}
+button{width:100%;padding:12px;border:0;border-radius:7px;font-size:14px;font-weight:bold;margin:4px 0}
 .calc{background:#54e6b0;color:#102018}
 .clear{background:#394960;color:white}
-.payment{background:#1d293c;border-radius:9px;padding:12px;text-align:center;margin:9px 0}
-.payment small{color:#bdc9d9}
-.amount{font-size:24px;color:#54e6b0;font-weight:bold;overflow-wrap:anywhere;margin-top:4px}
-.note{font-size:10px;color:#aebed0;line-height:1.5}
+.payment{background:#1d293c;padding:12px;border-radius:9px;text-align:center;margin:9px 0}
+.amount{font-size:24px;color:#54e6b0;font-weight:bold;overflow-wrap:anywhere}
+.note{font-size:10px;color:#bdc9d9;line-height:1.5}
+#details{margin-top:8px}
 </style>
 </head>
 <body>
 
 <h1>🏇 PASINDU</h1>
-<p class="subtitle">HORSE RACING CALCULATOR</p>
+<p class="sub">HORSE RACING CALCULATOR</p>
 
 <div class="panel">
 <h2>HORSE ODDS</h2>
@@ -49,36 +50,49 @@ button{width:100%;padding:12px;border:0;border-radius:7px;font-weight:bold;font-
 </div>
 
 <button class="calc" onclick="calculate()">CALCULATE PAYMENT</button>
+
 <div class="payment">
-<small>WIN + PLACE POTENTIAL PAYMENT</small>
+<div class="note">TOTAL POTENTIAL PAYMENT — WIN + PLACE</div>
 <div id="payment" class="amount">Rs. 0.00</div>
 <div id="details" class="note"></div>
 </div>
+
 <button class="clear" onclick="clearAll()">CLEAR ALL</button>
 
 <p class="note">
-NR handling here reduces the combination size to the remaining selected runners. Actual bookmaker rules may instead void or resettle parts of a bet. Verify the applicable settlement rules before relying on this estimate.
+Odds 15/2 = decimal odds 8.5. NR = decimal odds 1.0.
+Rule 4 reduces the fractional profit portion. This calculator uses your requested NR calculation; actual bookmaker settlement rules can differ.
 </p>
 
 <script>
 const horsesBox=document.getElementById("horses");
 const betsBox=document.getElementById("bets");
-const ruleOptions=[0,5,10,15,20,25,30,35,40,45,50];
+const rules=[0,5,10,15,20,25,30,35,40,45,50];
 
 for(let i=1;i<=6;i++){
  const el=document.createElement("div");
  el.className="horse";
  el.innerHTML=`
- <div class="horsehead">
+ <div class="hhead">
   <b>HORSE ${i}</b>
-  <label class="status"><input id="nr${i}" type="checkbox"> NR</label>
+  <div class="status">
+   <input id="nr${i}" type="checkbox">
+   <label for="nr${i}">NR</label>
+  </div>
  </div>
  <div class="grid">
-  <div><label>ODDS</label><input id="odds${i}" placeholder="15/2" type="text"></div>
-  <div><label>PLACE TERMS</label><input id="place${i}" value="1/5" type="text"></div>
-  <div><label>RULE 4</label>
+  <div>
+   <label>ODDS</label>
+   <input id="odds${i}" type="text" placeholder="15/2">
+  </div>
+  <div>
+   <label>PLACE TERMS</label>
+   <input id="place${i}" type="text" value="1/5">
+  </div>
+  <div>
+   <label>RULE 4</label>
    <select id="rule${i}">
-    ${ruleOptions.map(n=>`<option value="${n}">${n}%</option>`).join("")}
+    ${rules.map(n=>`<option value="${n}">${n}%</option>`).join("")}
    </select>
   </div>
  </div>`;
@@ -99,16 +113,28 @@ betTypes.forEach((b,i)=>{
  el.innerHTML=`
  <div class="betname">${b[0]}</div>
  <div class="stakes">
-  <div><label>WIN STAKE</label><input id="win${i}" type="number" min="0" step="any" placeholder="Stake"></div>
-  <div><label>PLACE STAKE</label><input id="pl${i}" type="number" min="0" step="any" placeholder="Stake"></div>
+  <div>
+   <label>WIN STAKE</label>
+   <input id="win${i}" type="number" min="0" step="any" placeholder="Stake">
+  </div>
+  <div>
+   <label>PLACE STAKE</label>
+   <input id="pl${i}" type="number" min="0" step="any" placeholder="Stake">
+  </div>
  </div>`;
  betsBox.appendChild(el);
 });
 
-function frac(v){
+// Fractional odds such as 15/2 represent profit odds 7.5.
+function fraction(v){
  const s=String(v||"").trim().replace(/\s/g,"");
  if(!s)return null;
- if(/^\d+(\.\d+)?$/.test(s))return Number(s);
+
+ if(/^\d+(\.\d+)?$/.test(s)){
+  const n=Number(s);
+  return n>=0?n:null;
+ }
+
  const m=s.match(/^(\d+(?:\.\d+)?)\/(\d+(?:\.\d+)?)$/);
  if(!m||Number(m[2])===0)return null;
  return Number(m[1])/Number(m[2]);
@@ -116,94 +142,143 @@ function frac(v){
 
 function getRunners(){
  const list=[];
+
  for(let i=1;i<=6;i++){
   const nr=document.getElementById("nr"+i).checked;
   const raw=document.getElementById("odds"+i).value.trim();
-  if(nr||!raw)continue;
 
-  const odds=frac(raw);
-  const terms=frac(document.getElementById("place"+i).value);
+  // NR remains in the selection and has decimal odds 1.0.
+  if(nr){
+   list.push({
+    name:"Horse "+i,
+    win:1,
+    place:1,
+    nr:true
+   });
+   continue;
+  }
+
+  // A blank, non-NR row is not selected.
+  if(!raw)continue;
+
+  const f=fraction(raw);
+  const terms=fraction(document.getElementById("place"+i).value);
   const rule=Number(document.getElementById("rule"+i).value);
 
-  if(odds===null||odds<=0)throw Error("Horse "+i+": Enter valid odds like 15/2.");
-  if(terms===null||terms<0)throw Error("Horse "+i+": Check place terms.");
+  if(f===null||f<=0){
+   throw Error("Horse "+i+": Enter valid odds, e.g. 15/2.");
+  }
+  if(terms===null||terms<0){
+   throw Error("Horse "+i+": Enter valid place terms, e.g. 1/5.");
+  }
+
+  const adjustedProfit=f*(1-rule/100);
 
   list.push({
    name:"Horse "+i,
-   win:1+odds*(1-rule/100),
-   place:1+odds*terms*(1-rule/100)
+   win:1+adjustedProfit,
+   place:1+adjustedProfit*terms,
+   nr:false
   });
  }
  return list;
 }
 
-function combos(list,k){
- if(k===0)return [[]];
- if(k>list.length)return [];
+// Create all unique combinations of the required size.
+function combinations(list,k){
+ if(k===0||k>list.length)return [];
  const out=[];
+
  function walk(start,chosen){
-  if(chosen.length===k){out.push(chosen.slice());return;}
+  if(chosen.length===k){
+   out.push(chosen.slice());
+   return;
+  }
+
   for(let i=start;i<list.length;i++){
    chosen.push(list[i]);
    walk(i+1,chosen);
    chosen.pop();
   }
  }
+
  walk(0,[]);
  return out;
 }
 
 function money(n){
  return "Rs. "+n.toLocaleString("en-LK",{
-  minimumFractionDigits:2,maximumFractionDigits:2
+  minimumFractionDigits:2,
+  maximumFractionDigits:2
  });
 }
 
 function calculate(){
  try{
   const runners=getRunners();
-  if(!runners.length)throw Error("Enter odds for at least one active horse.");
 
-  let totalReturn=0,totalStake=0;
-  let info=[];
+  if(!runners.length){
+   throw Error("Enter odds for at least one horse.");
+  }
 
-  betTypes.forEach((b,i)=>{
-   const wv=document.getElementById("win"+i).value.trim();
-   const pv=document.getElementById("pl"+i).value.trim();
-   const ws=wv===""?0:Number(wv);
-   const ps=pv===""?0:Number(pv);
-   if(!Number.isFinite(ws)||!Number.isFinite(ps)||ws<0||ps<0)
+  let totalReturn=0;
+  let totalStake=0;
+  const info=[];
+
+  betTypes.forEach((bet,i)=>{
+   const wText=document.getElementById("win"+i).value.trim();
+   const pText=document.getElementById("pl"+i).value.trim();
+
+   const ws=wText===""?0:Number(wText);
+   const ps=pText===""?0:Number(pText);
+
+   if(!Number.isFinite(ws)||!Number.isFinite(ps)||ws<0||ps<0){
     throw Error("Stake must be zero or greater.");
+   }
 
    if(ws===0&&ps===0)return;
 
-   const requested=b[1]===0?runners.length:b[1];
-   const effective=Math.min(requested,runners.length);
-   const lines=combos(runners,effective);
-   if(!lines.length)return;
+   const requested=bet[1]===0?runners.length:bet[1];
+   const lines=combinations(runners,requested);
 
-   let winRet=0,placeRet=0;
+   if(!lines.length){
+    info.push(bet[0]+": Not enough selected horses.");
+    return;
+   }
+
+   let winPayment=0;
+   let placePayment=0;
+
    for(const line of lines){
-    winRet+=ws*line.reduce((p,h)=>p*h.win,1);
-    placeRet+=ps*line.reduce((p,h)=>p*h.place,1);
+    const winOdds=line.reduce((product,h)=>product*h.win,1);
+    const placeOdds=line.reduce((product,h)=>product*h.place,1);
+
+    winPayment+=ws*winOdds;
+    placePayment+=ps*placeOdds;
    }
 
    const stake=(ws+ps)*lines.length;
+   const payment=winPayment+placePayment;
+
    totalStake+=stake;
-   totalReturn+=winRet+placeRet;
+   totalReturn+=payment;
 
-   const label=effective<requested
-    ?b[0]+" → "+["Single","Double","Treble","Quad","Accumulator"][effective-1]
-    :b[0];
-
-   info.push(label+": "+money(winRet+placeRet));
+   info.push(
+    bet[0]+" ("+lines.length+" lines)"+
+    "<br>Win: "+money(winPayment)+
+    "<br>Place: "+money(placePayment)
+   );
   });
 
   document.getElementById("payment").textContent=money(totalReturn);
+
   document.getElementById("details").innerHTML=
-   (info.length?info.join("<br>"):"Enter a Win or Place stake.")+
-   (totalStake? "<br>Total stake: "+money(totalStake)+
-   "<br>Potential net profit: "+money(totalReturn-totalStake):"");
+   (info.length?info.join("<hr>"):"Enter a Win or Place stake.")+
+   (totalStake?
+    "<hr>Total stake: "+money(totalStake)+
+    "<br>Potential net profit: "+money(totalReturn-totalStake):
+    "");
+
  }catch(e){
   document.getElementById("payment").textContent="Check entries";
   document.getElementById("details").textContent=e.message;
@@ -217,10 +292,12 @@ function clearAll(){
   document.getElementById("rule"+i).value="0";
   document.getElementById("nr"+i).checked=false;
  }
+
  betTypes.forEach((b,i)=>{
   document.getElementById("win"+i).value="";
   document.getElementById("pl"+i).value="";
  });
+
  document.getElementById("payment").textContent="Rs. 0.00";
  document.getElementById("details").textContent="";
 }
