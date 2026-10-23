@@ -3,155 +3,238 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>PASINDU FBI</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PASINDU FBI | Mission Control</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;background:#07111d;color:#e8f2ff;font-family:Arial,sans-serif}
-header{background:#101f30;padding:18px;text-align:center;border-bottom:2px solid #18a9ff}
-.logo{font-size:27px;font-weight:bold;letter-spacing:3px;color:#27b8ff}
-small{color:#9bb3c9}
-main{max-width:800px;margin:auto;padding:18px}
-.panel{background:#102034;border:1px solid #28435d;border-radius:12px;padding:18px;margin:15px 0}
-h2{color:#39baff;font-size:18px}
-input,button{width:100%;padding:13px;margin:7px 0;border-radius:7px;font-size:16px}
-input{background:#07111d;color:white;border:1px solid #42617e}
-button{background:#087fc0;color:white;border:0;font-weight:bold}
-button:active{background:#15b7ff}
-.secondary{background:#263b51}
-.result{padding:12px;background:#071522;border-radius:7px;margin-top:8px}
-.hidden{display:none}
-.stat{display:inline-block;background:#071522;padding:15px;margin:4px;border-radius:8px}
-footer{text-align:center;color:#7890a8;padding:20px;font-size:12px}
+body{margin:0;background:#050b14;color:#dcecff;font-family:Arial,sans-serif}
+header{padding:18px;border-bottom:1px solid #174a70;background:#081421}
+.brand{font-size:27px;font-weight:900;letter-spacing:2px}
+.brand span{color:#159cff}
+.sub{font-size:10px;letter-spacing:3px;color:#80a9c9;margin-top:5px}
+.status{color:#48e6a0;font-size:12px;margin-top:12px}
+.layout{display:flex;min-height:100vh}
+nav{width:185px;background:#081421;border-right:1px solid #16354d;padding:14px 8px}
+nav button{background:transparent;text-align:left;color:#9dbbd3;font-size:13px;margin:3px 0}
+nav button:hover,.active{background:#103c67;color:white}
+main{flex:1;min-width:0;padding:16px;max-width:1200px;margin:auto;width:100%}
+button{cursor:pointer;border:1px solid #174d78;border-radius:6px;padding:12px;background:#087ed0;color:white;font-weight:bold}
+input,select,textarea{width:100%;background:#07111d;color:white;border:1px solid #24425d;border-radius:6px;padding:12px;margin:6px 0}
+.card{background:linear-gradient(140deg,#0d1b2b,#09121e);border:1px solid #183b58;border-radius:10px;padding:15px;margin-bottom:13px;box-shadow:0 0 20px #00101c}
+h2{font-size:15px;color:#50baff;letter-spacing:1px;margin-top:0}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.metric{font-size:25px;font-weight:bold;margin:12px 0}
+.muted{color:#7f9ab3;font-size:12px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.smallbtn{font-size:12px;padding:9px;margin:3px 0}
+.hidden{display:none!important}
+#login{max-width:460px;margin:45px auto}
+#login .brand{text-align:center;margin-bottom:25px}
+.bigscan{font-size:62px;text-align:center;color:#16aaff;text-shadow:0 0 25px #078dff;padding:12px}
+#msg{font-size:13px;min-height:18px;color:#64c9ff}
+table{width:100%;border-collapse:collapse;font-size:12px}
+td,th{padding:10px 5px;text-align:left;border-bottom:1px solid #1b344a}
+th{color:#64c9ff}
+.green{color:#43e6a0}.red{color:#ff626f}
+#clock{color:#55bfff;font-size:13px}
+footer{text-align:center;color:#526e86;font-size:10px;padding:20px}
+@media(max-width:700px){
+ .layout{display:block}
+ nav{width:100%;display:flex;overflow-x:auto;gap:4px;border-right:0;border-bottom:1px solid #16354d}
+ nav button{white-space:nowrap;min-width:max-content;font-size:11px;padding:10px}
+ main{padding:10px}
+ .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .row{grid-template-columns:1fr}
+ #login{margin:25px auto}
+ .brand{font-size:23px}
+}
 </style>
 </head>
 <body>
 <header>
-<div class="logo">🛡 PASINDU FBI</div>
-<small>INVESTIGATION SYSTEM • DEMO VERSION</small>
+ <div class="brand">🛡 PASINDU <span>FBI</span></div>
+ <div class="sub">ADVANCED INVESTIGATION CONSOLE</div>
+ <div class="status">● DEMO SYSTEM ONLINE <span style="float:right" id="clock"></span></div>
 </header>
 
-<main>
-<section id="login" class="panel">
-<h2>🔐 AGENT LOGIN</h2>
-<p>Authorized demo access only</p>
-<input id="username" placeholder="Agent username" autocomplete="username">
-<input id="password" type="password" placeholder="Password" autocomplete="current-password">
-<button onclick="loginAgent()">LOGIN TO SYSTEM</button>
-<button class="secondary" onclick="fingerprint()">☝ Fingerprint Scan Demo</button>
-<p id="loginMsg"></p>
+<section id="login" class="card">
+ <div class="brand">AGENT <span style="color:#159cff">ACCESS</span></div>
+ <div class="bigscan">◉</div>
+ <h2 style="text-align:center">SECURE LOGIN PORTAL</h2>
+ <p class="muted" style="text-align:center">AUTHORIZED DEMO ACCESS ONLY</p>
+ <label>AGENT USERNAME</label>
+ <input id="user" placeholder="Enter username" autocomplete="username">
+ <label>ACCESS PASSWORD</label>
+ <input id="pass" type="password" placeholder="Enter password" autocomplete="current-password">
+ <button style="width:100%" onclick="login()">▶ ACCESS MISSION CONTROL</button>
+ <button class="smallbtn" style="width:100%;background:#102c46" onclick="finger()">◎ FINGERPRINT SCAN DEMO</button>
+ <p id="msg"></p>
+ <p class="muted">Demo login: PASINDU / Pasindu@123</p>
 </section>
 
-<section id="dashboard" class="hidden">
-<div class="panel">
-<h2>◈ MISSION CONTROL</h2>
-<p>Welcome, Agent PASINDU.</p>
-<div class="stat">AGENT: ACTIVE</div>
-<div class="stat">MODE: DEMO</div>
-<div class="stat">SYSTEM: ONLINE</div>
-<button onclick="playSound()">🔊 Test System Sound</button>
-</div>
+<div id="app" class="layout hidden">
+<nav>
+ <button class="active" onclick="page('dashboard',this)">▦ Dashboard</button>
+ <button onclick="page('people',this)">⌕ Person Search</button>
+ <button onclick="page('cases',this)">▤ Case Files</button>
+ <button onclick="page('biometric',this)">◎ Biometric</button>
+ <button onclick="page('activity',this)">☷ Activity Log</button>
+ <button onclick="logout()">⇥ Logout</button>
+</nav>
+<main>
+<section id="dashboard" class="view">
+ <div class="card">
+  <h2>MISSION CONTROL</h2>
+  <div>Welcome back, <b style="color:#36baff">AGENT PASINDU</b></div>
+  <p class="muted">Personal investigation demo console</p>
+ </div>
+ <div class="grid">
+  <div class="card"><div class="muted">OPEN CASES</div><div class="metric" id="caseCount">02</div><span class="green">● Demo data</span></div>
+  <div class="card"><div class="muted">SEARCHES</div><div class="metric" id="searchCount">00</div><span class="muted">This session</span></div>
+  <div class="card"><div class="muted">AGENT STATUS</div><div class="metric green">ON</div><span class="muted">Active session</span></div>
+  <div class="card"><div class="muted">SECURITY</div><div class="metric">DEMO</div><span class="muted">Local interface</span></div>
+ </div>
+ <div class="row">
+  <div class="card">
+   <h2>QUICK PERSON SEARCH</h2>
+   <input id="quick" placeholder="Name or demo ID">
+   <button onclick="search('quick')">⌕ SEARCH RECORDS</button>
+   <div id="quickResult" class="muted"></div>
+  </div>
+  <div class="card">
+   <h2>SECURE SCANNER</h2>
+   <div class="bigscan">◎</div>
+   <button style="width:100%" onclick="scan()">START DEMO SCAN</button>
+   <p id="scanmsg" class="muted">Scanner ready.</p>
+  </div>
+ </div>
+ <div class="card">
+  <h2>RECENT CASE FILES</h2>
+  <div id="recentCases"></div>
+ </div>
+</section>
 
-<div class="panel">
-<h2>🔎 PERSON SEARCH</h2>
-<input id="searchName" placeholder="Enter demo name or ID">
-<button onclick="searchPerson()">SEARCH DATABASE</button>
-<div id="searchResult" class="result">Ready for search.</div>
-</div>
+<section id="people" class="view hidden">
+ <div class="card">
+  <h2>⌕ PERSON DATABASE SEARCH</h2>
+  <p class="muted">Search fictional sample records only.</p>
+  <input id="personQuery" placeholder="Enter name or ID">
+  <button onclick="search('personQuery')">SEARCH DATABASE</button>
+  <div id="personResult"></div>
+ </div>
+</section>
 
-<div class="panel">
-<h2>📁 CASE FILES</h2>
-<button onclick="showCase('CASE-001','Missing Device Investigation','Status: Open | Priority: Medium')">CASE-001 — Device</button>
-<button onclick="showCase('CASE-002','Digital Security Review','Status: Under Review | Priority: High')">CASE-002 — Security</button>
-<div id="caseResult" class="result">Select a demo case.</div>
-</div>
+<section id="cases" class="view hidden">
+ <div class="card">
+  <h2>▤ CLASSIFIED DEMO CASE FILES</h2>
+  <button onclick="newCase()">＋ CREATE DEMO CASE</button>
+  <div id="caseList"></div>
+ </div>
+</section>
 
-<div class="panel">
-<h2>🛰 AGENT TOOLS</h2>
-<button onclick="faceScan()">▣ Face Scan Demo</button>
-<div id="scanResult" class="result">Scanner ready.</div>
-<button class="secondary" onclick="logoutAgent()">LOG OUT</button>
-</div>
+<section id="biometric" class="view hidden">
+ <div class="card">
+  <h2>◎ BIOMETRIC ACCESS LAB</h2>
+  <div class="bigscan">◎</div>
+  <p class="muted">Visual scanner simulation. This does not read your actual fingerprint or identify a face.</p>
+  <button style="width:100%" onclick="scan()">INITIATE SCAN</button>
+  <p id="biometricMsg"></p>
+ </div>
+</section>
+
+<section id="activity" class="view hidden">
+ <div class="card">
+  <h2>☷ SESSION ACTIVITY LOG</h2>
+  <div id="logs"></div>
+  <button class="smallbtn" onclick="clearLogs()">CLEAR SESSION LOG</button>
+ </div>
 </section>
 </main>
-
-<footer>PASINDU FBI • FICTIONAL DEMO • NOT AN OFFICIAL GOVERNMENT SYSTEM</footer>
+</div>
+<footer>PASINDU FBI • FICTIONAL PERSONAL DEMO • NOT AN OFFICIAL GOVERNMENT SERVICE</footer>
 
 <script>
-const DEMO_USER = "PASINDU";
-const DEMO_PASS = "Pasindu@123";
-
-function beep(freq=750){
+const USER='PASINDU', PASS='Pasindu@123';
+let searches=0, cases=[
+ {id:'CASE-001',name:'Digital Security Review',status:'OPEN',priority:'HIGH'},
+ {id:'CASE-002',name:'Missing Device Demo',status:'REVIEW',priority:'MEDIUM'}
+];
+let logs=['Demo system initialized'];
+const people=[
+ {name:'Demo Agent',id:'P-001',status:'ACTIVE'},
+ {name:'Sample Person',id:'P-002',status:'UNDER REVIEW'},
+ {name:'Test Profile',id:'P-003',status:'RECORD FOUND'}
+];
+function sound(f=700){
  try{
-  const ctx=new (window.AudioContext||window.webkitAudioContext)();
-  const osc=ctx.createOscillator();
-  const gain=ctx.createGain();
-  osc.connect(gain);gain.connect(ctx.destination);
-  osc.frequency.value=freq;
-  gain.gain.value=0.08;
-  osc.start();
-  osc.stop(ctx.currentTime+0.12);
-  osc.onended=()=>ctx.close();
+  let c=new(window.AudioContext||window.webkitAudioContext)();
+  let o=c.createOscillator(),g=c.createGain();
+  o.connect(g);g.connect(c.destination);o.frequency.value=f;
+  g.gain.value=.045;o.start();o.stop(c.currentTime+.09);
+  o.onended=()=>c.close();
  }catch(e){}
 }
-
-function loginAgent(){
- beep(650);
- const u=document.getElementById('username').value.trim();
- const p=document.getElementById('password').value;
- if(u===DEMO_USER && p===DEMO_PASS){
-  document.getElementById('login').classList.add('hidden');
-  document.getElementById('dashboard').classList.remove('hidden');
-  beep(950);
- }else{
-  document.getElementById('loginMsg').textContent='ACCESS DENIED — Check username and password.';
-  beep(220);
- }
+function log(s){logs.unshift(new Date().toLocaleTimeString()+' — '+s);renderLogs()}
+function login(){
+ sound();
+ if(user.value.trim()===USER&&pass.value===PASS){
+  loginBox();
+ }else{msg.textContent='ACCESS DENIED — Incorrect credentials';sound(180)}
 }
-
-function fingerprint(){
- beep(500);
- document.getElementById('loginMsg').textContent=
- 'Fingerprint demo only. Enter the demo username and password to login.';
+function loginBox(){
+ document.getElementById('login').classList.add('hidden');
+ document.getElementById('app').classList.remove('hidden');
+ log('Agent PASINDU logged in');renderCases();sound(950)
 }
-
-function logoutAgent(){
- beep(400);
- document.getElementById('dashboard').classList.add('hidden');
- document.getElementById('login').classList.remove('hidden');
- document.getElementById('password').value='';
+function finger(){sound(500);msg.textContent='Fingerprint demo only. Use username and password.'}
+function logout(){
+ sound(400);log('Agent logged out');
+ app.classList.add('hidden');document.getElementById('login').classList.remove('hidden');
+ pass.value='';
 }
-
-function searchPerson(){
- beep();
- const q=document.getElementById('searchName').value.trim().toLowerCase();
- const db=[
-  {name:'Demo Agent',id:'P-001',status:'ACTIVE'},
-  {name:'Test Person',id:'P-002',status:'RECORD FOUND'},
-  {name:'Sample Profile',id:'P-003',status:'UNDER REVIEW'}
- ];
- const found=db.filter(x=>x.name.toLowerCase().includes(q)||x.id.toLowerCase()===q);
- document.getElementById('searchResult').innerHTML=q&&found.length?
- found.map(x=>`Name: ${x.name}<br>ID: ${x.id}<br>Status: ${x.status}`).join('<hr>'):
- 'No demo record found.';
+function page(id,btn){
+ sound(650);
+ document.querySelectorAll('.view').forEach(x=>x.classList.add('hidden'));
+ document.getElementById(id).classList.remove('hidden');
+ document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));
+ btn.classList.add('active');log('Opened '+id);
+ if(id==='cases')renderCases();
 }
-
-function showCase(id,title,status){
- beep(800);
- document.getElementById('caseResult').textContent=id+' | '+title+' | '+status;
+function search(inputId){
+ sound();
+ const q=document.getElementById(inputId).value.trim().toLowerCase();
+ const out=document.getElementById(inputId==='quick'?'quickResult':'personResult');
+ if(!q){out.textContent='Enter a name or ID first.';return}
+ searches++;searchCount.textContent=String(searches).padStart(2,'0');
+ const found=people.filter(p=>p.name.toLowerCase().includes(q)||p.id.toLowerCase()===q);
+ out.innerHTML=found.length?found.map(p=>`<div class="card"><b>${p.name}</b><p class="muted">ID: ${p.id}</p><span class="green">${p.status}</span></div>`).join(''):'No matching demo record.';
+ log('Searched demo records');
 }
-
-function faceScan(){
- beep(700);
- const box=document.getElementById('scanResult');
- box.textContent='Scanning demo...';
+function scan(){
+ sound(800);
+ ['scanmsg','biometricMsg'].forEach(id=>{let x=document.getElementById(id);if(x)x.textContent='Scanning...'});
  setTimeout(()=>{
-  box.textContent='DEMO SCAN COMPLETE — No real face recognition performed.';
-  beep(1000);
- },1200);
+ ['scanmsg','biometricMsg'].forEach(id=>{let x=document.getElementById(id);if(x)x.textContent='DEMO SCAN COMPLETE — no real biometric check performed.'});
+ sound(1000);log('Demo scanner activated');
+ },1000);
 }
-
-function playSound(){beep(900)}
+function renderCases(){
+ let html=cases.map(c=>`<div class="card"><b>${c.id}</b><p>${c.name}</p><span class="green">${c.status}</span> · Priority: ${c.priority}</div>`).join('');
+ caseList.innerHTML=html;recentCases.innerHTML=html;
+ caseCount.textContent=String(cases.length).padStart(2,'0');
+}
+function newCase(){
+ sound();
+ let name=prompt('Enter a demo case name:');
+ if(!name||!name.trim())return;
+ cases.push({id:'CASE-'+String(cases.length+1).padStart(3,'0'),name:name.trim(),status:'OPEN',priority:'MEDIUM'});
+ renderCases();log('Created '+cases[cases.length-1].id);
+}
+function renderLogs(){logsDiv.innerHTML=logs.map(x=>`<div class="card">${x}</div>`).join('')}
+const logsDiv=document.getElementById('logs');
+function clearLogs(){logs.length=0;renderLogs();sound()}
+function tick(){clock.textContent=new Date().toLocaleString()}
+setInterval(tick,1000);tick();renderCases();renderLogs();
 </script>
 </body>
 </html>
