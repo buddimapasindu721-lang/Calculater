@@ -3,316 +3,304 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>PASINDU FBI COMMAND CENTER</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PASINDU Horse Racing Calculator</title>
 <style>
-:root{--bg:#030913;--panel:#071727;--line:#154267;--blue:#168fff;--cyan:#51d7ff;--green:#24e6a0}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:#dceeff;font:13px Arial;min-height:100vh}
-header{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;background:#040d18;border-bottom:1px solid var(--line);gap:10px}
-.brand{font-size:24px;font-weight:900;letter-spacing:2px}.brand span{color:var(--blue)}
-.muted{color:#7899b5;font-size:11px}
-button{cursor:pointer;background:linear-gradient(120deg,#0866b5,#07336a);border:1px solid #17649b;color:white;border-radius:5px;padding:10px}
-button:hover{box-shadow:0 0 12px #168fff77}
-input,textarea{width:100%;background:#030c16;color:white;border:1px solid #244764;border-radius:5px;padding:12px;margin:7px 0}
-.panel{background:linear-gradient(145deg,#0a1b2b,#040e19);border:1px solid var(--line);border-radius:7px;padding:13px;margin-bottom:10px;min-width:0}
-h2{font-size:12px;letter-spacing:1px;color:var(--cyan);margin:0 0 12px}
-.full{width:100%;margin-top:7px}
-#login{max-width:1100px;margin:25px auto;padding:12px}
-.loginGrid{display:grid;grid-template-columns:1fr 1.1fr 1fr;gap:12px;align-items:center}
-.hero{text-align:center;padding:15px 5px}
-.seal{font-size:55px;color:#ffd46a;text-shadow:0 0 22px #168fff}
-.hero h1{font-size:clamp(22px,3vw,36px)}.hero h1 span{color:var(--blue)}
-.scan{height:145px;width:145px;border:1px solid #168fff;border-radius:50%;margin:16px auto;display:grid;place-items:center;font-size:70px;color:var(--cyan);position:relative;overflow:hidden;text-shadow:0 0 18px #168fff;box-shadow:0 0 25px #168fff22}
-.scan:after{content:"";position:absolute;left:0;right:0;height:2px;background:#69e9ff;box-shadow:0 0 15px #168fff;animation:sc 2s infinite}
-@keyframes sc{from{top:5%}to{top:95%}}
-#app{display:none}.shell{display:grid;grid-template-columns:180px minmax(0,1fr);min-height:85vh}
-nav{background:#040e19;border-right:1px solid var(--line);padding:8px;display:flex;flex-direction:column;gap:4px}
-nav button{text-align:left;background:transparent;border-color:transparent;color:#a6c5df;font-size:11px}
-nav button.active{background:#0b4680;border-color:#167fbd;color:white}
-main{padding:12px;min-width:0;max-width:1600px;width:100%;margin:auto}
-.topline{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:10px}
-.metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
-.number{font-size:24px;font-weight:bold;margin:10px 0}
-.layout2{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(230px,.8fr);gap:10px}
-.layout3{display:grid;grid-template-columns:1.2fr 1fr .8fr;gap:10px}
-.view{display:none}.view.active{display:block}
-.map{height:300px;position:relative;overflow:hidden;background:#020b15;border:1px solid #13517b;touch-action:pan-y}
-.map svg{width:100%;height:100%;transform-origin:center;transition:transform .2s}
-.land{fill:#06345a;stroke:#168fff;stroke-width:1.5}
-.mapgrid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(#16466a44 1px,transparent 1px),linear-gradient(90deg,#16466a44 1px,transparent 1px);background-size:25px 25px}
-.mapbuttons{position:absolute;left:7px;top:7px;display:grid;gap:4px}
-.mapbuttons button{padding:7px 11px;background:#06182ddd}
-.hot{position:absolute;left:68%;top:50%;width:15px;height:15px;border-radius:50%;background:#ff344e;box-shadow:0 0 0 10px #ff344433,0 0 22px red;animation:pulse 1.5s infinite}
-@keyframes pulse{50%{box-shadow:0 0 0 17px #ff344400,0 0 22px red}}
-.mapinfo{position:absolute;right:7px;bottom:7px;background:#04111ee8;padding:8px;font-size:10px}
-.maplabel{position:absolute;left:8px;bottom:8px;color:#8ad9ff;font-size:10px}
-.mapmodes{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}.mapmodes button{font-size:9px;padding:8px}
-.row{display:flex;gap:10px;align-items:center}
-.avatar{width:65px;height:70px;display:grid;place-items:center;font-size:35px;background:#0b2942;border:1px solid #1678b0}
-.record,.activity{padding:10px;border-bottom:1px solid #16334a;font-size:11px;line-height:1.6}
-.green{color:var(--green)}.blue{color:var(--cyan)}.red{color:#ff6375}.gold{color:#ffd16b}
-.scroll{max-height:340px;overflow:auto}
-table{border-collapse:collapse;width:100%;font-size:10px}
-th,td{text-align:left;padding:9px 5px;border-bottom:1px solid #16334a;white-space:nowrap}
-th{color:var(--cyan)}
-.quick{display:grid;grid-template-columns:1fr 1fr;gap:6px}.quick button{font-size:10px;padding:11px 4px}
-footer{text-align:center;color:#52738f;padding:14px;font-size:10px}
-@media(max-width:850px){
- .loginGrid{grid-template-columns:1fr}
- .shell{grid-template-columns:1fr}
- nav{flex-direction:row;overflow-x:auto;border-right:0;border-bottom:1px solid var(--line)}
- nav button{white-space:nowrap;min-width:max-content}
- .layout2,.layout3{grid-template-columns:1fr}
- .metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
- .map{height:260px}
- header{position:relative}
-}
-@media(max-width:480px){
- header{padding:9px}.brand{font-size:18px}
- main{padding:7px}.panel{padding:10px}
- .map{height:225px}.number{font-size:21px}
-}
+body{margin:0;padding:7px;background:#101827;color:#f4f7ff;font-family:Arial,sans-serif;font-size:13px}
+h1{text-align:center;color:#54e6b0;font-size:21px;margin:5px}
+.sub{text-align:center;font-size:10px;color:#bdc9d9;margin:0 0 10px}
+.panel{background:#1d293c;padding:8px;border-radius:9px;margin-bottom:9px}
+h2{font-size:13px;color:#54e6b0;margin:3px 0 8px}
+.horse{background:#26354a;padding:7px;border-radius:7px;margin:5px 0}
+.hhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.hhead b{font-size:12px}
+.grid{display:grid;grid-template-columns:1.1fr .8fr .8fr;gap:6px}
+label{display:block;font-size:10px;color:#cbd5e1;margin-bottom:3px}
+input,select{width:100%;min-width:0;padding:8px 4px;border:1px solid #53647b;border-radius:6px;background:#101827;color:white;font-size:14px}
+.status{display:flex;align-items:center;gap:4px}
+.status input{width:16px;height:16px}
+.status label{margin:0;font-size:11px}
+.bets{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.bet{background:#26354a;border-radius:7px;padding:7px}
+.betname{font-weight:bold;margin-bottom:6px;font-size:12px}
+.stakes{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+button{width:100%;padding:12px;border:0;border-radius:7px;font-size:14px;font-weight:bold;margin:4px 0}
+.calc{background:#54e6b0;color:#102018}
+.clear{background:#394960;color:white}
+.payment{background:#1d293c;padding:12px;border-radius:9px;text-align:center;margin:9px 0}
+.amount{font-size:24px;color:#54e6b0;font-weight:bold;overflow-wrap:anywhere}
+.note{font-size:10px;color:#bdc9d9;line-height:1.5}
+#details{margin-top:8px}
 </style>
 </head>
 <body>
-<header>
- <div class="row"><span class="seal" style="font-size:30px">✦</span><div><div class="brand">PASINDU <span>FBI</span></div><div class="muted">ELITE COMMAND CENTER</div></div></div>
- <div style="text-align:right;font-size:10px"><span class="green">● SYSTEM ONLINE</span><br><span id="clock"></span></div>
-</header>
 
-<section id="login" class="panel">
- <div class="loginGrid">
-  <div class="hero">
-   <div class="seal">✦</div><h1>PASINDU <span>FBI</span></h1>
-   <p class="muted">DETECT · PROTECT · INVESTIGATE</p>
-   <p class="muted">PERSONAL DEMO SECURITY SYSTEM</p>
-  </div>
-  <div class="panel">
-   <h2>▣ AGENT LOGIN</h2>
-   <label class="muted">USERNAME</label>
-   <input id="username" placeholder="Enter username" autocomplete="username">
-   <label class="muted">PASSWORD</label>
-   <input id="password" type="password" placeholder="Enter password" autocomplete="current-password">
-   <button class="full" onclick="login()">LOGIN TO SYSTEM →</button>
-   <button class="full" onclick="fingerLogin()">◎ FINGERPRINT SCAN</button>
-   <p id="loginMsg" class="muted"></p>
-   <p class="muted">Demo: PASINDU / Pasindu@123</p>
-  </div>
-  <div class="hero">
-   <div class="scan">◎</div><h2>BIOMETRIC SCANNER</h2>
-   <span class="green">● SCANNER READY</span>
-   <p class="muted">Fingerprint animation demo</p>
-  </div>
- </div>
-</section>
+<h1>🏇 PASINDU</h1>
+<p class="sub">HORSE RACING CALCULATOR</p>
 
-<div id="app">
-<div class="shell">
-<nav>
- <button class="active" onclick="page('dashboard',this)">▦ DASHBOARD</button>
- <button onclick="page('people',this)">⌕ PERSON SEARCH</button>
- <button onclick="page('cases',this)">▤ CASE FILES</button>
- <button onclick="page('evidence',this)">▣ EVIDENCE VAULT</button>
- <button onclick="page('database',this)">▤ DATABASE</button>
- <button onclick="page('biometric',this)">◎ BIOMETRIC SCAN</button>
- <button onclick="page('reports',this)">▧ REPORTS</button>
- <button onclick="page('activity',this)">☷ ACTIVITY LOG</button>
- <button onclick="logout()">⇥ LOG OUT</button>
-</nav>
-<main>
-<div class="topline"><b>WELCOME, AGENT <span class="blue">PASINDU</span></b><span class="green">● ENCRYPTED DEMO SESSION</span></div>
-
-<section id="dashboard" class="view active">
- <div class="metrics">
-  <div class="panel"><div class="muted">DATABASE RECORDS</div><div class="number" id="profileCount">50</div><span class="muted">Fictional profiles</span></div>
-  <div class="panel"><div class="muted">CASE FILES</div><div class="number" id="caseCount">05</div><span class="muted">Demo cases</span></div>
-  <div class="panel"><div class="muted">SEARCHES</div><div class="number" id="searchCount">00</div><span class="muted">This session</span></div>
-  <div class="panel"><div class="muted">SYSTEM STATUS</div><div class="number green">ONLINE</div><span class="muted">Demo mode</span></div>
- </div>
- <div class="layout2">
-  <div class="panel">
-   <div class="topline"><h2>🌍 GLOBAL INTELLIGENCE MAP</h2><span class="green">● LIVE DEMO</span></div>
-   <div class="map">
-    <div class="mapgrid"></div>
-    <svg id="mapSvg" viewBox="0 0 800 360" preserveAspectRatio="xMidYMid meet">
-     <g class="land">
-      <path d="M45 83 L76 49 120 40 155 58 175 78 165 101 137 112 125 145 101 160 78 137 54 126Z"/>
-      <path d="M150 170 L181 154 208 177 216 205 201 238 187 274 168 302 155 267 159 232 143 204Z"/>
-      <path d="M295 76 L326 52 365 57 385 75 415 76 433 98 411 120 381 115 369 143 348 154 330 131 303 123Z"/>
-      <path d="M356 154 L388 136 418 150 438 178 425 222 401 264 382 245 369 208 346 185Z"/>
-      <path d="M406 88 L448 60 490 67 525 87 561 91 597 109 626 135 611 159 576 151 558 174 524 168 506 194 480 176 456 149 431 139Z"/>
-      <path d="M481 180 L506 172 532 192 548 222 530 246 511 233 499 210Z"/>
-      <path d="M580 225 L610 210 645 224 673 251 652 271 622 262 599 246Z"/>
-      <path d="M692 282 L718 272 740 285 728 302 704 304Z"/>
-      <path d="M275 48 L290 35 306 42 300 58Z"/>
-     </g>
-     <g class="mapline">
-      <path d="M70 105 Q350 15 660 240"/><path d="M170 255 Q400 80 610 120"/>
-      <path d="M110 130 Q370 290 690 180"/><path d="M350 90 Q420 180 520 220"/>
-     </g>
-     <g class="mapdots">
-      <circle cx="110" cy="91" r="3"/><circle cx="140" cy="100" r="2"/><circle cx="175" cy="191" r="3"/>
-      <circle cx="334" cy="94" r="3"/><circle cx="367" cy="175" r="3"/><circle cx="424" cy="105" r="3"/>
-      <circle cx="485" cy="128" r="3"/><circle cx="530" cy="155" r="3"/><circle cx="614" cy="239" r="3"/>
-     </g>
-    </svg>
-    <div class="hot" title="Sri Lanka demo marker"></div>
-    <div class="mapbuttons"><button onclick="zoomMap(1.25)">＋</button><button onclick="zoomMap(.8)">−</button><button onclick="resetMap()">◎</button></div>
-    <div class="maplabel">MAP: GLOBAL DEMO<br><span id="zoomLabel">ZOOM 100%</span></div>
-    <div class="mapinfo"><span class="blue">REGION INFO</span><br>COUNTRY: Sri Lanka<br>CAPITAL: Colombo<br>TIMEZONE: GMT +5:30</div>
-   </div>
-   <div class="mapmodes"><button onclick="mapMode('Satellite')">SATELLITE</button><button onclick="mapMode('Street')">STREET</button><button onclick="mapMode('Terrain')">TERRAIN</button><button onclick="mapMode('Heatmap')">HEATMAP</button></div>
-   <p id="mapStatus" class="muted">Illustrative map — no live tracking.</p>
-  </div>
-  <div class="panel">
-   <h2>◎ BIOMETRIC AUTHENTICATION</h2>
-   <div class="scan">◎</div><p class="green" style="text-align:center">PLACE FINGER ON SCANNER</p>
-   <button class="full" onclick="runScan('scanMsg')">START SCAN</button>
-   <p id="scanMsg" class="muted"></p>
-   <h2 style="margin-top:18px">QUICK ACCESS</h2>
-   <div class="quick"><button onclick="pageById('people')">IDENTITY SEARCH</button><button onclick="pageById('cases')">CASE FILES</button><button onclick="pageById('database')">DATABASE</button><button onclick="pageById('reports')">REPORTS</button></div>
-  </div>
- </div>
- <div class="layout3">
-  <div class="panel"><h2>PERSON PROFILE PREVIEW</h2><div class="row"><div class="avatar">♙</div><div><b>PASINDU FBI DEMO</b><p class="muted">Sample Agent Profile</p><span class="green">● DEMO ACCOUNT</span></div></div><p class="muted">No real personal data is used.</p></div>
-  <div class="panel"><h2>RECENT ACTIVITY</h2><div id="recentActivity"></div></div>
-  <div class="panel"><h2>SYSTEM STATUS</h2><p class="green">● ONLINE</p><p class="muted">Version: FBI-SYS 2.5</p><p class="muted">Mode: Local demo</p><p class="muted">Sound effects: Enabled</p></div>
- </div>
-</section>
-
-<section id="people" class="view">
- <div class="panel"><h2>⌕ PERSON SEARCH</h2><input id="peopleQuery" placeholder="Search name, ID, department or country"><button onclick="searchProfiles('peopleQuery','peopleResults')">SEARCH</button> <button onclick="renderProfiles('','peopleResults')">SHOW ALL 50</button><div id="peopleResults" class="scroll"></div></div>
-</section>
-
-<section id="database" class="view">
- <div class="panel"><h2>▤ DEMO DATABASE</h2><input id="dbQuery" placeholder="Filter sample database"><button onclick="searchProfiles('dbQuery','dbResults')">FILTER RECORDS</button><div id="dbResults" class="scroll"></div></div>
-</section>
-
-<section id="cases" class="view">
- <div class="panel"><h2>▤ CASE MANAGEMENT</h2><button onclick="addCase()">＋ CREATE DEMO CASE</button><div id="allCases"></div></div>
-</section>
-
-<section id="evidence" class="view">
- <div class="panel"><h2>▣ EVIDENCE VAULT</h2><p class="muted">Demo notes only. Do not enter confidential data.</p><input id="evTitle" placeholder="Note title"><textarea id="evText" rows="4" placeholder="Write demo notes"></textarea><button onclick="saveEvidence()">SAVE NOTE</button><div id="evList"></div></div>
-</section>
-
-<section id="biometric" class="view">
- <div class="panel" style="text-align:center"><h2>◎ BIOMETRIC SCANNER LAB</h2><div class="scan">◎</div><p class="muted">Animation only. No fingerprint is captured.</p><button onclick="runScan('bioMsg')">START SCAN</button><p id="bioMsg" class="green"></p></div>
-</section>
-
-<section id="reports" class="view">
- <div class="panel"><h2>▧ DEMO REPORTS</h2><p id="reportCases">Cases: 5</p><p id="reportSearches">Searches: 0</p><button onclick="downloadReport()">EXPORT SESSION REPORT</button></div>
-</section>
-
-<section id="activity" class="view">
- <div class="panel"><h2>☷ ACTIVITY LOG</h2><div id="allActivity"></div><button onclick="clearActivity()">CLEAR LOG</button></div>
-</section>
-</main>
+<div class="panel">
+<h2>HORSE ODDS</h2>
+<div id="horses"></div>
 </div>
+
+<div class="panel">
+<h2>BET STAKES</h2>
+<div id="bets" class="bets"></div>
 </div>
-<footer>PASINDU FBI · FICTIONAL PERSONAL DEMO · NOT AN OFFICIAL GOVERNMENT SERVICE</footer>
+
+<button class="calc" onclick="calculate()">CALCULATE PAYMENT</button>
+
+<div class="payment">
+<div class="note">TOTAL POTENTIAL PAYMENT — WIN + PLACE</div>
+<div id="payment" class="amount">Rs. 0.00</div>
+<div id="details" class="note"></div>
+</div>
+
+<button class="clear" onclick="clearAll()">CLEAR ALL</button>
+
+<p class="note">
+Odds 15/2 = decimal odds 8.5. NR = decimal odds 1.0.
+Rule 4 reduces the fractional profit portion. This calculator uses your requested NR calculation; actual bookmaker settlement rules can differ.
+</p>
 
 <script>
-const $=id=>document.getElementById(id);
-const DEMO_USER='PASINDU',DEMO_PASS='Pasindu@123';
-let searches=0,zoom=1,evidence=[],logs=['Demo system initialized'];
-const departments=['Analysis','Cyber Unit','Field Operations','Research','Digital Forensics'];
-const states=['ACTIVE','UNDER REVIEW','ARCHIVED','CLEARED','PENDING'];
-const profiles=Array.from({length:50},(_,i)=>({
- name:['Alex Morgan','Jordan Blake','Taylor Reed','Casey Parker','Riley Bennett','Morgan Hayes','Jamie Foster','Avery Brooks','Cameron Ellis','Drew Collins'][i%10]+(i>=10?' '+(Math.floor(i/10)+1):''),
- id:'DEMO-'+String(i+1).padStart(3,'0'),
- department:departments[i%5],status:states[i%5],
- country:['Sri Lanka','United Kingdom','Australia','Canada','New Zealand'][i%5]
-}));
-let cases=[
-{id:'CASE-001',name:'Cyber Security Demo',status:'IN PROGRESS',priority:'HIGH'},
-{id:'CASE-002',name:'Missing Device Simulation',status:'OPEN',priority:'MEDIUM'},
-{id:'CASE-003',name:'Digital Evidence Review',status:'UNDER REVIEW',priority:'MEDIUM'},
-{id:'CASE-004',name:'Network Safety Exercise',status:'CLOSED',priority:'LOW'},
-{id:'CASE-005',name:'Sample Identity Verification',status:'OPEN',priority:'HIGH'}
+const horsesBox=document.getElementById("horses");
+const betsBox=document.getElementById("bets");
+const rules=[0,5,10,15,20,25,30,35,40,45,50];
+
+for(let i=1;i<=6;i++){
+ const el=document.createElement("div");
+ el.className="horse";
+ el.innerHTML=`
+ <div class="hhead">
+  <b>HORSE ${i}</b>
+  <div class="status">
+   <input id="nr${i}" type="checkbox">
+   <label for="nr${i}">NR</label>
+  </div>
+ </div>
+ <div class="grid">
+  <div>
+   <label>ODDS</label>
+   <input id="odds${i}" type="text" placeholder="15/2">
+  </div>
+  <div>
+   <label>PLACE TERMS</label>
+   <input id="place${i}" type="text" value="1/5">
+  </div>
+  <div>
+   <label>RULE 4</label>
+   <select id="rule${i}">
+    ${rules.map(n=>`<option value="${n}">${n}%</option>`).join("")}
+   </select>
+  </div>
+ </div>`;
+ horsesBox.appendChild(el);
+}
+
+const betTypes=[
+ ["Single",1],
+ ["Double",2],
+ ["Treble",3],
+ ["Quad",4],
+ ["Accumulator",0]
 ];
-function sound(freq=720,duration=.09){
+
+betTypes.forEach((b,i)=>{
+ const el=document.createElement("div");
+ el.className="bet";
+ el.innerHTML=`
+ <div class="betname">${b[0]}</div>
+ <div class="stakes">
+  <div>
+   <label>WIN STAKE</label>
+   <input id="win${i}" type="number" min="0" step="any" placeholder="Stake">
+  </div>
+  <div>
+   <label>PLACE STAKE</label>
+   <input id="pl${i}" type="number" min="0" step="any" placeholder="Stake">
+  </div>
+ </div>`;
+ betsBox.appendChild(el);
+});
+
+// Fractional odds such as 15/2 represent profit odds 7.5.
+function fraction(v){
+ const s=String(v||"").trim().replace(/\s/g,"");
+ if(!s)return null;
+
+ if(/^\d+(\.\d+)?$/.test(s)){
+  const n=Number(s);
+  return n>=0?n:null;
+ }
+
+ const m=s.match(/^(\d+(?:\.\d+)?)\/(\d+(?:\.\d+)?)$/);
+ if(!m||Number(m[2])===0)return null;
+ return Number(m[1])/Number(m[2]);
+}
+
+function getRunners(){
+ const list=[];
+
+ for(let i=1;i<=6;i++){
+  const nr=document.getElementById("nr"+i).checked;
+  const raw=document.getElementById("odds"+i).value.trim();
+
+  // NR remains in the selection and has decimal odds 1.0.
+  if(nr){
+   list.push({
+    name:"Horse "+i,
+    win:1,
+    place:1,
+    nr:true
+   });
+   continue;
+  }
+
+  // A blank, non-NR row is not selected.
+  if(!raw)continue;
+
+  const f=fraction(raw);
+  const terms=fraction(document.getElementById("place"+i).value);
+  const rule=Number(document.getElementById("rule"+i).value);
+
+  if(f===null||f<=0){
+   throw Error("Horse "+i+": Enter valid odds, e.g. 15/2.");
+  }
+  if(terms===null||terms<0){
+   throw Error("Horse "+i+": Enter valid place terms, e.g. 1/5.");
+  }
+
+  const adjustedProfit=f*(1-rule/100);
+
+  list.push({
+   name:"Horse "+i,
+   win:1+adjustedProfit,
+   place:1+adjustedProfit*terms,
+   nr:false
+  });
+ }
+ return list;
+}
+
+// Create all unique combinations of the required size.
+function combinations(list,k){
+ if(k===0||k>list.length)return [];
+ const out=[];
+
+ function walk(start,chosen){
+  if(chosen.length===k){
+   out.push(chosen.slice());
+   return;
+  }
+
+  for(let i=start;i<list.length;i++){
+   chosen.push(list[i]);
+   walk(i+1,chosen);
+   chosen.pop();
+  }
+ }
+
+ walk(0,[]);
+ return out;
+}
+
+function money(n){
+ return "Rs. "+n.toLocaleString("en-LK",{
+  minimumFractionDigits:2,
+  maximumFractionDigits:2
+ });
+}
+
+function calculate(){
  try{
-  const C=window.AudioContext||window.webkitAudioContext;if(!C)return;
-  const c=new C(),o=c.createOscillator(),g=c.createGain();
-  o.type='sine';o.frequency.value=freq;g.gain.value=.06;
-  o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+duration);
-  o.onended=()=>c.close();
- }catch(e){}
+  const runners=getRunners();
+
+  if(!runners.length){
+   throw Error("Enter odds for at least one horse.");
+  }
+
+  let totalReturn=0;
+  let totalStake=0;
+  const info=[];
+
+  betTypes.forEach((bet,i)=>{
+   const wText=document.getElementById("win"+i).value.trim();
+   const pText=document.getElementById("pl"+i).value.trim();
+
+   const ws=wText===""?0:Number(wText);
+   const ps=pText===""?0:Number(pText);
+
+   if(!Number.isFinite(ws)||!Number.isFinite(ps)||ws<0||ps<0){
+    throw Error("Stake must be zero or greater.");
+   }
+
+   if(ws===0&&ps===0)return;
+
+   const requested=bet[1]===0?runners.length:bet[1];
+   const lines=combinations(runners,requested);
+
+   if(!lines.length){
+    info.push(bet[0]+": Not enough selected horses.");
+    return;
+   }
+
+   let winPayment=0;
+   let placePayment=0;
+
+   for(const line of lines){
+    const winOdds=line.reduce((product,h)=>product*h.win,1);
+    const placeOdds=line.reduce((product,h)=>product*h.place,1);
+
+    winPayment+=ws*winOdds;
+    placePayment+=ps*placeOdds;
+   }
+
+   const stake=(ws+ps)*lines.length;
+   const payment=winPayment+placePayment;
+
+   totalStake+=stake;
+   totalReturn+=payment;
+
+   info.push(
+    bet[0]+" ("+lines.length+" lines)"+
+    "<br>Win: "+money(winPayment)+
+    "<br>Place: "+money(placePayment)
+   );
+  });
+
+  document.getElementById("payment").textContent=money(totalReturn);
+
+  document.getElementById("details").innerHTML=
+   (info.length?info.join("<hr>"):"Enter a Win or Place stake.")+
+   (totalStake?
+    "<hr>Total stake: "+money(totalStake)+
+    "<br>Potential net profit: "+money(totalReturn-totalStake):
+    "");
+
+ }catch(e){
+  document.getElementById("payment").textContent="Check entries";
+  document.getElementById("details").textContent=e.message;
+ }
 }
-function log(s){logs.unshift(new Date().toLocaleTimeString()+' — '+s);logs=logs.slice(0,100);renderLogs()}
-function login(){
- sound(600);
- if($('username').value.trim().toUpperCase()===DEMO_USER&&$('password').value===DEMO_PASS){
-  $('login').classList.add('hidden');$('app').style.display='block';
-  log('Agent logged in');renderAll();sound(1000,.18);
- }else{$('loginMsg').textContent='ACCESS DENIED — Check username and password.';sound(180,.2)}
+
+function clearAll(){
+ for(let i=1;i<=6;i++){
+  document.getElementById("odds"+i).value="";
+  document.getElementById("place"+i).value="1/5";
+  document.getElementById("rule"+i).value="0";
+  document.getElementById("nr"+i).checked=false;
+ }
+
+ betTypes.forEach((b,i)=>{
+  document.getElementById("win"+i).value="";
+  document.getElementById("pl"+i).value="";
+ });
+
+ document.getElementById("payment").textContent="Rs. 0.00";
+ document.getElementById("details").textContent="";
 }
-function fingerLogin(){sound(450);$('loginMsg').textContent='Fingerprint animation only. Enter username and password to sign in.'}
-function logout(){sound(400);log('Agent logged out');$('app').style.display='none';$('login').classList.remove('hidden');$('password').value=''}
-function page(id,btn){
- sound();document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
- $(id).classList.add('active');
- document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
- if(btn)btn.classList.add('active');
- log('Opened '+id);
- if(id==='people')renderProfiles('','peopleResults');
- if(id==='database')renderProfiles('','dbResults');
- if(id==='cases')renderCases();
- if(id==='activity')renderLogs();
-}
-function pageById(id){let b=[...document.querySelectorAll('nav button')].find(x=>x.getAttribute('onclick').includes("'"+id+"'"));page(id,b)}
-function zoomMap(f){zoom=Math.min(3,Math.max(.6,zoom*f));$('mapSvg').style.transform='scale('+zoom+')';$('zoomLabel').textContent='ZOOM '+Math.round(zoom*100)+'%';sound(650)}
-function resetMap(){zoom=1;$('mapSvg').style.transform='scale(1)';$('zoomLabel').textContent='ZOOM 100%';sound()}
-function mapMode(m){$('mapStatus').textContent=m+' view selected — illustrative map demo only.';sound(600)}
-function runScan(id){sound(500);$(id).textContent='SCANNING...';setTimeout(()=>{$(id).textContent='DEMO SCAN COMPLETE — no fingerprint was read.';sound(950);log('Biometric animation used')},1200)}
-function searchProfiles(inputId,target){
- let q=$(inputId).value.trim().toLowerCase();
- let found=profiles.filter(p=>!q||[p.name,p.id,p.department,p.status,p.country].some(v=>v.toLowerCase().includes(q)));
- searches++;$('searchCount').textContent=String(searches).padStart(2,'0');
- renderProfiles(q,target);log('Searched fictional demo database');
- $('reportSearches').textContent='Searches: '+searches;
-}
-function renderProfiles(q='',target='peopleResults'){
- let found=profiles.filter(p=>!q||[p.name,p.id,p.department,p.status,p.country].some(v=>v.toLowerCase().includes(q.toLowerCase())));
- $(target).innerHTML='<p class="muted">'+found.length+' sample records</p>'+found.map(p=>`<div class="record"><b>${esc(p.name)}</b> <span class="blue">${p.id}</span><br><span class="muted">${p.department} · ${p.country}</span><br><span class="${p.status==='ACTIVE'?'green':'gold'}">${p.status}</span></div>`).join('');
-}
-function renderCases(){
- const html=cases.map(c=>`<div class="record"><b class="blue">${esc(c.id)}</b> — ${esc(c.name)}<p><span class="${c.status==='CLOSED'?'muted':'green'}">${c.status}</span> · PRIORITY: <span class="${c.priority==='HIGH'?'red':'gold'}">${c.priority}</span></p></div>`).join('');
- $('allCases').innerHTML=html;
- $('recentActivity').innerHTML=logs.slice(0,4).map(s=>`<div class="activity">${esc(s)}</div>`).join('');
- $('caseCount').textContent=String(cases.length).padStart(2,'0');
- $('reportCases').textContent='Cases: '+cases.length;
-}
-function addCase(){
- let n=prompt('Enter a fictional demo case name:');
- if(!n||!n.trim())return;
- cases.unshift({id:'CASE-'+String(cases.length+1).padStart(3,'0'),name:n.trim(),status:'OPEN',priority:'MEDIUM'});
- renderCases();log('Created demo case');sound(900);
-}
-function saveEvidence(){
- let t=$('evTitle').value.trim(),n=$('evText').value.trim();
- if(!t||!n){alert('Enter a title and note first.');return}
- evidence.unshift({t,n});
- $('evList').innerHTML=evidence.map(e=>`<div class="record"><b>${esc(e.t)}</b><p>${esc(e.n)}</p></div>`).join('');
- $('evTitle').value='';$('evText').value='';log('Saved demo note');sound(850);
-}
-function renderLogs(){
- let html=logs.map(s=>`<div class="activity">◈ ${esc(s)}</div>`).join('');
- $('allActivity').innerHTML=html;
- $('recentActivity').innerHTML=logs.slice(0,4).map(s=>`<div class="activity">◈ ${esc(s)}</div>`).join('');
-}
-function clearActivity(){logs=[];renderLogs();sound(400)}
-function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function renderAll(){renderCases();renderLogs();renderProfiles('','dbResults')}
-function downloadReport(){
- let txt='PASINDU FBI DEMO REPORT\nProfiles: '+profiles.length+'\nCases: '+cases.length+'\nSearches: '+searches+'\n\n'+cases.map(c=>c.id+' | '+c.name+' | '+c.status).join('\n')+'\n\nACTIVITY\n'+logs.join('\n');
- let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([txt],{type:'text/plain'}));a.download='pasindu-fbi-report.txt';a.click();URL.revokeObjectURL(a.href);sound(900);log('Exported report');
-}
-$('password').addEventListener('keydown',e=>{if(e.key==='Enter')login()});
-function tick(){$('clock').textContent=new Date().toLocaleString()}
-tick();setInterval(tick,1000);renderAll();
 </script>
 </body>
 </html>
