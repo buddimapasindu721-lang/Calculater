@@ -1,0 +1,725 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#09090b">
+<title>PASINDU Horse Racing Calculator</title>
+
+<style>
+:root{
+  --bg:#09090b;
+  --panel:#151519;
+  --panel2:#202026;
+  --line:#37373f;
+  --red:#ed263b;
+  --text:#f7f7f8;
+  --muted:#a7a7b2;
+  --green:#42dc91;
+  --yellow:#ffd166;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+}
+header{
+  background:linear-gradient(135deg,#39060c,#141418 65%);
+  border-bottom:2px solid var(--red);
+  padding:22px 15px;
+  text-align:center;
+}
+.logo{
+  display:inline-block;
+  background:var(--red);
+  border-radius:12px;
+  padding:9px 13px;
+  font-weight:900;
+  font-size:20px;
+  margin-bottom:10px;
+}
+header h1{font-size:23px;margin:3px 0}
+header p{color:#d0d0d7;font-size:12px;margin:8px 0 0}
+main{max-width:850px;margin:auto;padding:13px}
+.panel{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:15px;
+  padding:14px;
+  margin-bottom:14px;
+}
+h2{font-size:17px;margin:0 0 13px}
+h3{font-size:14px;margin:0 0 10px}
+label{
+  display:block;
+  color:var(--muted);
+  font-size:12px;
+  margin-bottom:5px;
+}
+input,select,button{
+  font:inherit;
+}
+input,select{
+  background:#0c0c10;
+  border:1px solid #44444d;
+  border-radius:9px;
+  color:white;
+  padding:11px 9px;
+  width:100%;
+  min-width:0;
+  outline:none;
+}
+input:focus,select:focus{border-color:var(--red)}
+input[readonly]{color:var(--yellow);background:#181318}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.horse{
+  background:#101014;
+  border:1px solid #35353d;
+  border-radius:12px;
+  padding:12px;
+  margin-bottom:10px;
+}
+.horsehead{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:10px;
+}
+.horsehead strong{font-size:14px}
+.number{
+  background:var(--red);
+  border-radius:7px;
+  padding:5px 9px;
+  font-weight:bold;
+  margin-right:6px;
+}
+.horsefields{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+}
+.smallfields{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+  margin-top:9px;
+}
+button{
+  border:0;
+  border-radius:10px;
+  padding:12px;
+  font-weight:bold;
+  cursor:pointer;
+}
+.primary{background:var(--red);color:white}
+.secondary{background:#292930;color:white;border:1px solid #44444d}
+.danger{background:#4b1119;color:#fff;border:1px solid #8d2633}
+.buttons{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.tabs{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:7px;
+  margin-bottom:13px;
+}
+.tab{
+  background:#25252c;
+  color:#ddd;
+  border:1px solid #44444c;
+  padding:11px 4px;
+  font-size:12px;
+}
+.tab.active{background:var(--red);color:white;border-color:var(--red)}
+.betbox{
+  background:#101014;
+  border:1px solid #393941;
+  padding:12px;
+  border-radius:11px;
+  margin-bottom:10px;
+}
+.betbox p{font-size:12px;color:var(--muted);line-height:1.5}
+.result{
+  background:#101014;
+  border:1px solid #393941;
+  padding:13px;
+  border-radius:12px;
+  margin-top:10px;
+}
+.resultrow{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  padding:9px 0;
+  border-bottom:1px solid #303038;
+  font-size:13px;
+}
+.resultrow:last-child{border:0}
+.amount{font-weight:bold;color:var(--green);text-align:right}
+.big{
+  font-size:25px;
+  font-weight:900;
+  color:var(--green);
+}
+.muted{color:var(--muted);font-size:12px;line-height:1.6}
+.warning{
+  color:var(--yellow);
+  font-size:12px;
+  line-height:1.5;
+  background:#292313;
+  border:1px solid #65501e;
+  padding:10px;
+  border-radius:9px;
+}
+.hidden{display:none}
+footer{text-align:center;color:#777782;font-size:11px;padding:15px}
+@media(max-width:390px){
+  main{padding:9px}
+  .panel{padding:11px}
+  header h1{font-size:20px}
+  input{padding:10px 7px;font-size:13px}
+  .smallfields{gap:5px}
+  .tabs{gap:4px}
+  .tab{font-size:11px}
+}
+</style>
+</head>
+
+<body>
+<header>
+  <div class="logo">🏇 PASINDU</div>
+  <h1>HORSE RACING CALCULATOR</h1>
+  <p>WIN • PLACE • MULTIPLES • FORECAST • TRICAST</p>
+</header>
+
+<main>
+
+<section class="panel">
+  <h2>💰 Currency</h2>
+  <label>Payment currency</label>
+  <input value="LKR — Sri Lankan Rupees" readonly>
+  <p class="muted">All stakes, investment, payout and profit/loss are displayed in LKR.</p>
+</section>
+
+<section class="panel">
+  <h2>🐎 Horse Selections</h2>
+  <p class="muted">Enter decimal odds (e.g. 8.5) or fractional odds (e.g. 15/2). Rule 4 and NR can be entered for each horse.</p>
+  <div id="horses"></div>
+  <div class="buttons">
+    <button class="secondary" onclick="addHorse()">＋ Add Horse</button>
+    <button class="secondary" onclick="removeHorse()">－ Remove Horse</button>
+  </div>
+</section>
+
+<section class="panel">
+  <h2>🎟️ Win / Place Calculator</h2>
+  <div class="grid2">
+    <div>
+      <label>Win selection number</label>
+      <select id="winHorse"></select>
+    </div>
+    <div>
+      <label>Place selection number</label>
+      <select id="placeHorse"></select>
+    </div>
+    <div>
+      <label>Win stake (LKR)</label>
+      <input id="winStake" type="number" min="0" step="0.01" value="0">
+    </div>
+    <div>
+      <label>Place stake (LKR)</label>
+      <input id="placeStake" type="number" min="0" step="0.01" value="0">
+    </div>
+  </div>
+  <button class="primary" style="width:100%;margin-top:12px" onclick="calculateWinPlace()">Calculate Win / Place</button>
+  <div id="winPlaceResult" class="result"></div>
+</section>
+
+<section class="panel">
+  <h2>🔢 Multiples Calculator</h2>
+  <div class="tabs">
+    <button class="tab active" onclick="setMultiple('single',this)">Singles</button>
+    <button class="tab" onclick="setMultiple('double',this)">Doubles</button>
+    <button class="tab" onclick="setMultiple('treble',this)">Trebles</button>
+    <button class="tab" onclick="setMultiple('quad',this)">4-fold</button>
+    <button class="tab" onclick="setMultiple('quint',this)">5-fold</button>
+    <button class="tab" onclick="setMultiple('acc',this)">Accumulator</button>
+  </div>
+  <div id="multipleTitle"><h3>Singles</h3></div>
+  <div>
+    <label>Select horses (hold Ctrl on computer; on mobile select horses one by one using the selector below)</label>
+    <select id="multipleHorses" multiple size="5" style="height:125px"></select>
+  </div>
+  <p class="muted">For multiple selections, select at least the number of horses required for the bet type.</p>
+  <div class="grid2">
+    <div>
+      <label>Stake per combination (LKR)</label>
+      <input id="multipleStake" type="number" min="0" step="0.01" value="100">
+    </div>
+    <div>
+      <label>Bet type</label>
+      <input id="multipleType" value="Singles" readonly>
+    </div>
+  </div>
+  <button class="primary" style="width:100%;margin-top:12px" onclick="calculateMultiple()">Calculate Multiples</button>
+  <div id="multipleResult" class="result"></div>
+</section>
+
+<section class="panel">
+  <h2>🏆 Forecast / Tricast / Quinella</h2>
+  <p class="muted">Choose your bet type, enter selection numbers, and enter the official dividend supplied by your bookmaker or results source.</p>
+
+  <div class="grid2">
+    <div>
+      <label>Bet type</label>
+      <select id="exoticType" onchange="updateExoticLabels()">
+        <option value="sf">Straight Forecast</option>
+        <option value="rf">Reverse Forecast</option>
+        <option value="cf">Combination Forecast</option>
+        <option value="st">Straight Tricast</option>
+        <option value="ct">Combination Tricast</option>
+        <option value="q">Quinella</option>
+      </select>
+    </div>
+    <div>
+      <label>Stake (LKR)</label>
+      <input id="exoticStake" type="number" min="0" step="0.01" value="100">
+    </div>
+    <div>
+      <label id="labelFirst">1st selection</label>
+      <select id="exoticFirst"></select>
+    </div>
+    <div>
+      <label id="labelSecond">2nd selection</label>
+      <select id="exoticSecond"></select>
+    </div>
+    <div id="thirdWrap" class="hidden">
+      <label>3rd selection</label>
+      <select id="exoticThird"></select>
+    </div>
+    <div>
+      <label>Official dividend (LKR per 1 unit stake)</label>
+      <input id="exoticDividend" type="number" min="0" step="0.01" placeholder="Enter official dividend">
+    </div>
+  </div>
+
+  <button class="primary" style="width:100%;margin-top:12px" onclick="calculateExotic()">Calculate Forecast / Tricast</button>
+  <div id="exoticResult" class="result"></div>
+</section>
+
+<section class="panel">
+  <h2>📊 Total Investment Summary</h2>
+  <div class="grid2">
+    <div>
+      <label>Additional investment (LKR)</label>
+      <input id="extraInvestment" type="number" min="0" step="0.01" value="0">
+    </div>
+    <div>
+      <label>Actual total payout (LKR)</label>
+      <input id="actualPayout" type="number" min="0" step="0.01" value="0">
+    </div>
+  </div>
+  <p class="muted">Enter the total amount you actually invested and the payout you received to calculate the final result.</p>
+  <button class="primary" style="width:100%;margin-top:12px" onclick="calculateSummary()">Calculate Total</button>
+  <div id="summaryResult" class="result"></div>
+</section>
+
+<section class="panel">
+  <h2>🧹 Reset Calculator</h2>
+  <p class="muted">Clear your entered stakes, dividends and calculator results.</p>
+  <button class="danger" style="width:100%" onclick="clearAll()">CLEAR ALL</button>
+</section>
+
+<div class="warning">
+  Important: This is a calculator only. It does not place bets or fetch official results. Actual returns can vary with bookmaker rules, deductions, place terms, dead heats, Rule 4, non-runners and stake rules. Check the official dividend before relying on a forecast, tricast or quinella calculation.
+</div>
+
+</main>
+
+<footer>PASINDU HORSE RACING CALCULATOR • LKR EDITION</footer>
+
+<script>
+const MAX_HORSES = 10;
+let horseCount = 5;
+let multipleMode = "single";
+
+const cash = n => "LKR " + Number(n || 0).toLocaleString("en-LK", {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2
+});
+
+function num(id) {
+  return Math.max(0, Number(document.getElementById(id).value) || 0);
+}
+
+function oddsValue(value) {
+  const s = String(value || "").trim();
+  if (!s) return 0;
+
+  if (s.includes("/")) {
+    const parts = s.split("/");
+    const a = Number(parts[0]);
+    const b = Number(parts[1]);
+    if (Number.isFinite(a) && Number.isFinite(b) && b !== 0) {
+      return a / b + 1;
+    }
+    return 0;
+  }
+
+  const n = Number(s);
+  return Number.isFinite(n) && n > 0 ? n : 0;
+}
+
+function rule4Factor(value) {
+  const percent = Math.min(50, Math.max(0, Number(value) || 0));
+  return 1 - percent / 100;
+}
+
+function getHorse(i) {
+  const odds = oddsValue(document.getElementById("odds" + i)?.value);
+  const rule4 = Number(document.getElementById("rule" + i)?.value) || 0;
+  const nr = Number(document.getElementById("nr" + i)?.value) || 0;
+  const win = Math.max(0, Number(document.getElementById("hw" + i)?.value) || 0);
+  const place = Math.max(0, Number(document.getElementById("hp" + i)?.value) || 0);
+
+  return {
+    number:i,
+    odds:odds,
+    rule4:rule4,
+    nr:nr,
+    win:win,
+    place:place,
+    effective:odds * rule4Factor(rule4),
+    name:"Horse " + i
+  };
+}
+
+function horseHTML(i) {
+  return `
+  <div class="horse" id="horseCard${i}">
+    <div class="horsehead">
+      <strong><span class="number">${i}</span> Horse ${i}</strong>
+      <span class="muted">WIN / PLACE</span>
+    </div>
+    <div class="horsefields">
+      <div>
+        <label>Odds (e.g. 15/2 or 8.5)</label>
+        <input id="odds${i}" placeholder="e.g. 15/2" inputmode="decimal">
+      </div>
+      <div>
+        <label>Rule 4 (%)</label>
+        <select id="rule${i}">
+          <option value="0">0%</option>
+          <option value="5">5%</option>
+          <option value="10">10%</option>
+          <option value="15">15%</option>
+          <option value="20">20%</option>
+          <option value="25">25%</option>
+          <option value="30">30%</option>
+          <option value="35">35%</option>
+          <option value="40">40%</option>
+          <option value="45">45%</option>
+          <option value="50">50%</option>
+        </select>
+      </div>
+    </div>
+    <div class="smallfields">
+      <div>
+        <label>Win stake</label>
+        <input id="hw${i}" type="number" min="0" step="0.01" value="0">
+      </div>
+      <div>
+        <label>Place stake</label>
+        <input id="hp${i}" type="number" min="0" step="0.01" value="0">
+      </div>
+      <div>
+        <label>NR count</label>
+        <select id="nr${i}">
+          <option value="0">0 NR</option>
+          <option value="1">1 NR</option>
+          <option value="2">2 NR</option>
+          <option value="3">3 NR</option>
+        </select>
+      </div>
+    </div>
+  </div>`;
+}
+
+function addHorse() {
+  if (horseCount >= MAX_HORSES) {
+    alert("Maximum 10 horses allowed.");
+    return;
+  }
+  horseCount++;
+  document.getElementById("horses").insertAdjacentHTML("beforeend", horseHTML(horseCount));
+  refreshSelectors();
+}
+
+function removeHorse() {
+  if (horseCount <= 2) {
+    alert("At least 2 horses are required.");
+    return;
+  }
+  document.getElementById("horseCard" + horseCount)?.remove();
+  horseCount--;
+  refreshSelectors();
+}
+
+function selectorOptions() {
+  let html = "";
+  for (let i = 1; i <= horseCount; i++) {
+    html += `<option value="${i}">Horse ${i}</option>`;
+  }
+  return html;
+}
+
+function refreshSelectors() {
+  const ids = [
+    "winHorse","placeHorse","multipleHorses",
+    "exoticFirst","exoticSecond","exoticThird"
+  ];
+
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const old = el.value;
+    el.innerHTML = selectorOptions();
+    if ([...el.options].some(o => o.value === old)) el.value = old;
+  });
+}
+
+function getSelected(id) {
+  return [...document.getElementById(id).selectedOptions]
+    .map(o => Number(o.value));
+}
+
+function showResult(id, html) {
+  document.getElementById(id).innerHTML = html;
+}
+
+function calculateWinPlace() {
+  const wi = Number(document.getElementById("winHorse").value);
+  const pi = Number(document.getElementById("placeHorse").value);
+  const ws = num("winStake");
+  const ps = num("placeStake");
+  const wh = getHorse(wi);
+  const ph = getHorse(pi);
+
+  const winReturn = wh.nr > 0 ? 0 : ws * Math.max(0, wh.effective);
+  const placeReturn = ph.nr > 0 ? 0 : ps * Math.max(0, (ph.effective + 1) / 3);
+  const investment = ws + ps;
+  const payout = winReturn + placeReturn;
+  const net = payout - investment;
+
+  showResult("winPlaceResult", `
+    <div class="resultrow"><span>Win return estimate</span><b class="amount">${cash(winReturn)}</b></div>
+    <div class="resultrow"><span>Place return estimate</span><b class="amount">${cash(placeReturn)}</b></div>
+    <div class="resultrow"><span>Total investment</span><b>${cash(investment)}</b></div>
+    <div class="resultrow"><span>Total estimated return</span><b class="amount">${cash(payout)}</b></div>
+    <div class="resultrow"><span>Estimated profit / loss</span><b class="${net >= 0 ? 'amount' : ''}" style="${net < 0 ? 'color:#ff6675' : ''}">${cash(net)}</b></div>
+    <p class="muted">Place return is only an estimate using odds divided by 3. Actual place terms may differ.</p>
+  `);
+}
+
+function setMultiple(mode, btn) {
+  multipleMode = mode;
+  document.querySelectorAll(".tabs .tab").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+
+  const names = {
+    single:"Singles",
+    double:"Doubles",
+    treble:"Trebles",
+    quad:"4-fold",
+    quint:"5-fold",
+    acc:"Accumulator"
+  };
+  document.getElementById("multipleTitle").innerHTML = "<h3>" + names[mode] + "</h3>";
+  document.getElementById("multipleType").value = names[mode];
+}
+
+function combinations(arr, size) {
+  if (size === 1) return arr.map(x => [x]);
+  if (size > arr.length) return [];
+
+  const result = [];
+  function walk(start, current) {
+    if (current.length === size) {
+      result.push(current.slice());
+      return;
+    }
+    for (let i = start; i < arr.length; i++) {
+      current.push(arr[i]);
+      walk(i + 1, current);
+      current.pop();
+    }
+  }
+  walk(0, []);
+  return result;
+}
+
+function calculateMultiple() {
+  const selected = getSelected("multipleHorses");
+  const stake = num("multipleStake");
+  const required = {
+    single:1,double:2,treble:3,quad:4,quint:5,acc:selected.length
+  }[multipleMode];
+
+  if (selected.length < required || selected.length === 0) {
+    showResult("multipleResult", '<p class="muted">Select enough horses for this bet type.</p>');
+    return;
+  }
+
+  const combos = multipleMode === "acc"
+    ? [selected]
+    : combinations(selected, required);
+
+  if (!combos.length) {
+    showResult("multipleResult", '<p class="muted">No valid combinations.</p>');
+    return;
+  }
+
+  let totalInvestment = combos.length * stake;
+  let possibleReturn = 0;
+
+  combos.forEach(combo => {
+    let ret = stake;
+    combo.forEach(i => {
+      const h = getHorse(i);
+      ret *= h.nr > 0 ? 1 : h.effective;
+    });
+    possibleReturn += ret;
+  });
+
+  const net = possibleReturn - totalInvestment;
+
+  showResult("multipleResult", `
+    <div class="resultrow"><span>Selected horses</span><b>${selected.length}</b></div>
+    <div class="resultrow"><span>Number of combinations</span><b>${combos.length}</b></div>
+    <div class="resultrow"><span>Stake per combination</span><b>${cash(stake)}</b></div>
+    <div class="resultrow"><span>Total investment</span><b>${cash(totalInvestment)}</b></div>
+    <div class="resultrow"><span>Estimated all-win return</span><b class="amount">${cash(possibleReturn)}</b></div>
+    <div class="resultrow"><span>Estimated profit if all selections win</span><b class="amount">${cash(net)}</b></div>
+    <p class="muted">This is a simplified all-win estimate. Real multiples with non-runners, Rule 4, dead heats or losing selections can settle differently.</p>
+  `);
+}
+
+function updateExoticLabels() {
+  const type = document.getElementById("exoticType").value;
+  const three = type === "st" || type === "ct";
+  document.getElementById("thirdWrap").classList.toggle("hidden", !three);
+
+  const labels = {
+    sf:["1st selection","2nd selection"],
+    rf:["Selection A","Selection B"],
+    cf:["Selection A","Selection B"],
+    st:["1st selection","2nd selection"],
+    ct:["Selection A","Selection B"],
+    q:["Selection A","Selection B"]
+  };
+  document.getElementById("labelFirst").textContent = labels[type][0];
+  document.getElementById("labelSecond").textContent = labels[type][1];
+}
+
+function calculateExotic() {
+  const type = document.getElementById("exoticType").value;
+  const a = Number(document.getElementById("exoticFirst").value);
+  const b = Number(document.getElementById("exoticSecond").value);
+  const c = Number(document.getElementById("exoticThird").value);
+  const stake = num("exoticStake");
+  const dividend = num("exoticDividend");
+
+  if (!stake || !dividend) {
+    showResult("exoticResult", '<p class="muted">Enter both stake and the official dividend.</p>');
+    return;
+  }
+
+  if (a === b || ((type === "st" || type === "ct") && (a === c || b === c))) {
+    showResult("exoticResult", '<p class="muted">Choose different horses for each selection.</p>');
+    return;
+  }
+
+  let combinationsCount = 1;
+  if (type === "rf") combinationsCount = 2;
+  if (type === "cf") combinationsCount = 2;
+  if (type === "ct") combinationsCount = 6;
+
+  const totalInvestment = stake * combinationsCount;
+  const payout = dividend * stake;
+  const net = payout - totalInvestment;
+
+  let betName = document.getElementById("exoticType").selectedOptions[0].text;
+  let selections = `Horse ${a} → Horse ${b}`;
+  if (type === "st" || type === "ct") selections += ` → Horse ${c}`;
+
+  showResult("exoticResult", `
+    <div class="resultrow"><span>Bet type</span><b>${betName}</b></div>
+    <div class="resultrow"><span>Selections entered</span><b>${selections}</b></div>
+    <div class="resultrow"><span>Estimated combinations</span><b>${combinationsCount}</b></div>
+    <div class="resultrow"><span>Total investment</span><b>${cash(totalInvestment)}</b></div>
+    <div class="resultrow"><span>Dividend entered</span><b>${cash(dividend)}</b></div>
+    <div class="resultrow"><span>Estimated payout</span><b class="amount">${cash(payout)}</b></div>
+    <div class="resultrow"><span>Estimated profit / loss</span><b style="color:${net >= 0 ? 'var(--green)' : '#ff6675'}">${cash(net)}</b></div>
+    <p class="muted">Confirm whether the dividend is per unit stake or per full bet with your source. Combination bet settlement and dividend rules vary by bookmaker.</p>
+  `);
+}
+
+function calculateSummary() {
+  const extra = num("extraInvestment");
+  const payout = num("actualPayout");
+  const total = extra;
+  const net = payout - total;
+
+  showResult("summaryResult", `
+    <div class="big">${cash(net)}</div>
+    <div class="resultrow"><span>Total investment entered</span><b>${cash(total)}</b></div>
+    <div class="resultrow"><span>Actual payout entered</span><b class="amount">${cash(payout)}</b></div>
+    <div class="resultrow"><span>Net profit / loss</span><b style="color:${net >= 0 ? 'var(--green)' : '#ff6675'}">${cash(net)}</b></div>
+    <p class="muted">Enter your full total investment in Additional investment to see the correct overall profit or loss.</p>
+  `);
+}
+
+function clearAll() {
+  if (!confirm("Clear all stakes, odds, dividends and results?")) return;
+
+  for (let i = 1; i <= horseCount; i++) {
+    const odds = document.getElementById("odds" + i);
+    const rule = document.getElementById("rule" + i);
+    const nr = document.getElementById("nr" + i);
+    const win = document.getElementById("hw" + i);
+    const place = document.getElementById("hp" + i);
+
+    if (odds) odds.value = "";
+    if (rule) rule.value = "0";
+    if (nr) nr.value = "0";
+    if (win) win.value = "0";
+    if (place) place.value = "0";
+  }
+
+  ["winStake","placeStake","exoticDividend","extraInvestment","actualPayout"]
+    .forEach(id => document.getElementById(id).value = "0");
+
+  document.getElementById("multipleStake").value = "100";
+  document.getElementById("exoticStake").value = "100";
+
+  [
+    "winPlaceResult","multipleResult","exoticResult","summaryResult"
+  ].forEach(id => document.getElementById(id).innerHTML = "");
+
+  document.getElementById("multipleHorses").selectedIndex = -1;
+}
+
+function initialize() {
+  let html = "";
+  for (let i = 1; i <= horseCount; i++) html += horseHTML(i);
+  document.getElementById("horses").innerHTML = html;
+  refreshSelectors();
+  updateExoticLabels();
+}
+
+initialize();
+</script>
+</body>
+</html>
