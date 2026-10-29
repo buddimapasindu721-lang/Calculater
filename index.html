@@ -3,359 +3,268 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#09090b">
 <title>PASINDU Horse Racing Calculator</title>
 <style>
-:root{--bg:#09090b;--panel:#151517;--red:#e51f32;--line:#414147;--text:#f5f5f5;--muted:#aaa;--green:#39d98a;--yellow:#ffdc55}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif}
-header{padding:20px 16px;background:radial-gradient(ellipse at 70% 0,#401015,#111113 65%);border-bottom:2px solid var(--red)}
-.brand{display:flex;align-items:center;gap:14px}
-.horselogo{font-size:43px;color:var(--red)}
-.brand h1{font-size:clamp(24px,5vw,42px);font-style:italic;margin:0;font-weight:900}
-.brand h2{font-size:clamp(13px,2.5vw,21px);letter-spacing:2px;color:var(--red);margin:4px 0}
-.brand p{font-size:11px;letter-spacing:2px;margin:8px 0}
-.topbuttons{display:flex;gap:8px;justify-content:flex-end;margin-top:14px}
-button{cursor:pointer;font-weight:bold;border-radius:6px;padding:10px;background:#19191c;color:white;border:1px solid var(--line)}
-button.red{background:var(--red);border-color:var(--red)}
-nav{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));background:#141416;border-bottom:1px solid var(--red)}
-nav button{border-radius:0;border:0;border-right:1px solid #37373b;padding:13px 2px;font-size:11px}
-nav button.active{background:var(--red)}
-nav span{display:block;font-size:22px;margin-bottom:5px}
-main{max-width:1500px;margin:auto;padding:12px}
-.panel{background:var(--panel);border:1px solid var(--line);border-radius:8px;margin-bottom:12px;overflow:hidden}
-.paneltitle{font-weight:bold;color:var(--red);padding:12px;font-size:17px;background:linear-gradient(90deg,#201416,#171719)}
-.settings{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;padding:12px}
-label{font-size:12px;color:#ddd;display:block;margin-bottom:6px}
-input,select{width:100%;min-width:0;background:#09090b;color:white;border:1px solid #4a4a50;border-radius:5px;padding:10px;font-size:14px}
-input[type=checkbox]{width:19px;height:19px;accent-color:var(--red)}
-table{width:100%;border-collapse:collapse;min-width:770px}
+body{margin:0;background:#09090b;color:#f5f5f5;font-family:Arial,sans-serif}
+header{padding:20px 12px;background:linear-gradient(120deg,#30070c,#101013);border-bottom:2px solid #e51f32}
+header h1{margin:0;font-size:30px;font-style:italic}
+header h2{margin:5px 0;color:#e51f32;font-size:16px;letter-spacing:2px}
+header p{font-size:11px;letter-spacing:2px}
+nav{display:grid;grid-template-columns:repeat(3,1fr);background:#171719}
+nav button{border:1px solid #3b3b40;border-radius:0;background:#171719;color:white;padding:13px 3px;font-size:12px}
+nav button.active{background:#d7192d}
+main{max-width:1100px;margin:auto;padding:10px}
+.panel,.bet{background:#151517;border:1px solid #424247;border-radius:8px;margin:10px 0;overflow:hidden}
+.heading{color:#f02b3d;font-weight:bold;font-size:17px;padding:13px;background:#201719}
+.pad{padding:12px}
+label{display:block;font-size:12px;color:#ccc;margin:9px 0 5px}
+input,select{width:100%;min-width:0;background:#09090b;color:white;border:1px solid #494950;border-radius:5px;padding:10px;font-size:14px}
+input[type=checkbox]{width:18px;height:18px;accent-color:#e51f32}
+button{background:#252529;color:white;border:1px solid #555;border-radius:5px;padding:11px;cursor:pointer;font-weight:bold}
+.red{background:#df1d31;border-color:#df1d31}
 .tablewrap{overflow-x:auto}
-th{font-size:11px;background:#111113;padding:10px 6px;border-bottom:1px solid #45454b}
-td{padding:5px;border-bottom:1px solid #303035;text-align:center}
-td input,td select{padding:9px 6px}
-td.name{min-width:130px}
-td.name input{text-align:left}
-.horsebuttons{padding:10px;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
-.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.bet{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:12px;min-width:0}
-.bet h3{color:var(--red);margin:0 0 13px;font-size:17px}
-.bet label{margin-top:10px}
-.bet .two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.choice{display:flex;gap:4px;flex-wrap:wrap;margin:8px 0}
-.choice button{flex:1;padding:9px 4px;font-size:11px}
-.choice button.active{background:var(--red);border-color:var(--red)}
-.info{font-size:11px;color:#ddd;border:1px solid #62252b;background:#211316;padding:9px;border-radius:5px;margin-top:10px}
-.lower{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:12px}
-.summary{border:1px solid var(--red);background:linear-gradient(145deg,#191719,#0e0e10)}
-.summaryrow{display:flex;justify-content:space-between;gap:8px;padding:12px;border-bottom:1px solid #39393d;font-size:13px}
-.money{font-size:19px;font-weight:bold;color:var(--yellow);text-align:right}
-.green{color:var(--green)}
-.loss{color:#ff475b}
-.notes{font-size:12px;line-height:1.9;color:#ddd}
-footer{text-align:center;padding:20px;color:#999;border-top:1px solid #333;margin-top:14px}
-.small{font-size:11px;color:var(--muted);line-height:1.6}
-@media(max-width:850px){
- .cards,.lower{grid-template-columns:1fr 1fr}
- .settings{grid-template-columns:1fr 1fr}
- nav button{font-size:9px}
- nav span{font-size:18px}
-}
-@media(max-width:540px){
- header{padding:15px 10px}
- .horselogo{font-size:32px}
- .brand h1{font-size:24px}
- .brand h2{font-size:12px;letter-spacing:1px}
- main{padding:7px}
- .cards,.lower{grid-template-columns:1fr}
- .settings{grid-template-columns:1fr 1fr;gap:8px;padding:9px}
- nav button{font-size:8px;padding:10px 1px}
- nav span{font-size:16px}
- .money{font-size:17px}
-}
+table{width:100%;min-width:690px;border-collapse:collapse}
+th{font-size:11px;background:#101012;padding:10px 5px}
+td{border-top:1px solid #343438;padding:5px;text-align:center}
+td input,td select{padding:9px 5px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.bet{padding:12px}
+.bet h3{color:#f02b3d;margin:0 0 10px}
+.choices{display:flex;gap:5px;flex-wrap:wrap;margin:8px 0}
+.choices button{flex:1;padding:9px 4px;font-size:11px}
+.choices button.active{background:#df1d31}
+.result{border:1px solid #61242b;background:#211316;border-radius:5px;padding:10px;margin-top:10px;font-size:12px}
+.total{background:#101012;border:1px solid #e51f32}
+.totalrow{display:flex;justify-content:space-between;gap:8px;padding:14px 12px;border-bottom:1px solid #3a3a40;font-size:13px}
+.amount{font-size:19px;font-weight:bold;color:#ffdf55;text-align:right}
+.big{font-size:24px;color:#40db8b;font-weight:bold}
+.note{font-size:11px;line-height:1.6;color:#aaa}
+.actions{display:flex;gap:8px;flex-wrap:wrap;padding:10px}
+.actions button{flex:1}
+footer{text-align:center;color:#888;padding:20px;font-size:11px}
+@media(max-width:520px){.cards{grid-template-columns:1fr}header h1{font-size:25px}main{padding:6px}.amount{font-size:17px}}
 </style>
 </head>
 <body>
-
 <header>
- <div class="brand">
-  <div class="horselogo">♞</div>
-  <div>
-   <h1>PASINDU</h1>
-   <h2>HORSE RACING CALCULATOR</h2>
-   <p>SMART BET • SMART RETURN</p>
-  </div>
- </div>
- <div class="topbuttons">
-  <button onclick="resetAll()">↻ RESET ALL</button>
-  <button class="red" onclick="calculateAll()">▦ CALCULATE ALL</button>
- </div>
+<h1>♞ PASINDU</h1>
+<h2>HORSE RACING CALCULATOR</h2>
+<p>SMART BET • SMART RETURN</p>
 </header>
 
 <nav>
- <button class="active" onclick="go('horses',this)"><span>🏆</span>WIN / PLACE</button>
- <button onclick="go('multiples',this)"><span>★</span>MULTIPLES</button>
- <button onclick="go('forecast',this)"><span>♞</span>FORECAST</button>
- <button onclick="go('tricast',this)"><span>♞♞</span>TRICAST</button>
- <button onclick="go('quinella',this)"><span>◎</span>QUINELLA</button>
- <button onclick="go('summary',this)"><span>▥</span>SUMMARY</button>
+<button class="active" onclick="jump('horses',this)">🏆 WIN / PLACE</button>
+<button onclick="jump('multiples',this)">★ MULTIPLES</button>
+<button onclick="jump('forecast',this)">♞ FORECAST</button>
+<button onclick="jump('tricast',this)">♞ TRICAST</button>
+<button onclick="jump('quinella',this)">◎ QUINELLA</button>
+<button onclick="jump('summary',this)">▥ SUMMARY</button>
 </nav>
 
 <main>
 <section class="panel" id="horses">
- <div class="settings">
-  <div><label>Place Terms</label><select id="placeTerms"><option value="5">1/5 Odds</option><option value="4">1/4 Odds</option><option value="3">1/3 Odds</option></select></div>
-  <div><label>Rule 4 Deduction</label><select id="ruleMode"><option value="individual">Apply Individually</option><option value="all">Apply to All</option></select></div>
-  <div><label>NR Handling</label><select id="nrMode"><option value="best">Best Odds</option><option value="refund">Refund Stake</option><option value="lose">Treat as Lost</option></select></div>
-  <div><label>Calculation Mode</label><select id="calcMode"><option>Selected Combination</option><option>All Checked Horses</option></select></div>
- </div>
- <div class="small" style="padding:0 12px 10px">Enter fractional odds (15/2) or decimal odds (8.50). Up to 10 horses. All currency values are LKR.</div>
- <div class="tablewrap">
- <table>
-  <thead><tr><th>#</th><th>USE</th><th>HORSE NAME</th><th>ODDS</th><th>WIN STAKE (LKR)</th><th>PLACE STAKE (LKR)</th><th>RULE 4 (%)</th><th>NR</th></tr></thead>
-  <tbody id="horseRows"></tbody>
- </table>
- </div>
- <div class="horsebuttons">
-  <button onclick="clearHorseList()">♧ CLEAR HORSE LIST</button>
-  <b>SELECTED HORSES: <span class="green" id="selectedCount">10 / 10</span></b>
- </div>
+<div class="heading">WIN / PLACE — HORSE LIST</div>
+<div class="pad">
+<div class="grid">
+<div><label>Place Terms</label><select id="terms"><option value="5">1/5 Odds</option><option value="4">1/4 Odds</option><option value="3">1/3 Odds</option></select></div>
+<div><label>Rule 4</label><select id="ruleAll"><option value="0">No deduction</option><option value="5">5%</option><option value="10">10%</option><option value="20">20%</option><option value="30">30%</option><option value="40">40%</option><option value="50">50%</option></select></div>
+</div>
+<p class="note">Odds 6/1 means payout LKR 600 for LKR 100 stake, according to your requested calculation. Decimal odds 7.0 also means 6/1.</p>
+</div>
+<div class="tablewrap"><table>
+<thead><tr><th>#</th><th>USE</th><th>HORSE NAME</th><th>ODDS</th><th>WIN STAKE LKR</th><th>PLACE STAKE LKR</th><th>RULE 4 %</th><th>NR</th></tr></thead>
+<tbody id="rows"></tbody>
+</table></div>
+<div class="actions"><button onclick="clearHorses()">CLEAR HORSE LIST</button><button class="red" onclick="calculate()">CALCULATE ALL</button></div>
 </section>
 
 <div class="cards">
- <section class="bet" id="multiples">
-  <h3>★ MULTIPLES</h3>
-  <label>Select Bet Type</label>
-  <div class="choice" id="multiChoices">
-   <button class="active" data-v="1">Single</button><button data-v="2">Double</button><button data-v="3">Treble</button><button data-v="4">Quad</button><button data-v="5">Quint</button><button data-v="0">Accumulator</button>
-  </div>
-  <label>Each Way</label><select id="eachWay"><option value="0">No</option><option value="1">Yes</option></select>
-  <label>Stake per Combination (LKR)</label><input id="multiStake" type="number" min="0" step=".01" value="1">
-  <p class="small">Uses checked horses with valid odds. Multiple bet estimates are based on all selections winning.</p>
- </section>
-
- <section class="bet" id="forecast">
-  <h3>♞ FORECAST</h3>
-  <div class="choice" id="forecastChoices">
-   <button class="active" data-v="straight">Straight</button><button data-v="reverse">Reverse</button><button data-v="combination">Combination</button>
-  </div>
-  <div class="two">
-   <div><label>Select First Horse</label><select id="f1"></select></div>
-   <div><label>Select Second Horse</label><select id="f2"></select></div>
-  </div>
-  <div class="two">
-   <div><label>Stake (LKR)</label><input id="fStake" type="number" min="0" value="1" step=".01"></div>
-   <div><label>CSF Dividend (per LKR 1)</label><input id="fDiv" type="number" min="0" value="0" step=".01"></div>
-  </div>
-  <div class="info">ⓘ Payout = Stake × CSF Dividend</div>
- </section>
-
- <section class="bet" id="tricast">
-  <h3>♞♞ TRICAST</h3>
-  <div class="choice" id="tricastChoices">
-   <button class="active" data-v="straight">Straight</button><button data-v="combination">Combination</button>
-  </div>
-  <label>Select 1st Horse</label><select id="t1"></select>
-  <div class="two">
-   <div><label>Select 2nd Horse</label><select id="t2"></select></div>
-   <div><label>Select 3rd Horse</label><select id="t3"></select></div>
-  </div>
-  <div class="two">
-   <div><label>Stake (LKR)</label><input id="tStake" type="number" min="0" value="1" step=".01"></div>
-   <div><label>Tricast Dividend (per LKR 1)</label><input id="tDiv" type="number" min="0" value="0" step=".01"></div>
-  </div>
-  <div class="info">ⓘ Payout = Stake × Tricast Dividend</div>
- </section>
-
- <section class="bet" id="quinella">
-  <h3>◎ QUINELLA</h3>
-  <div class="two">
-   <div><label>Select Horse A</label><select id="q1"></select></div>
-   <div><label>Select Horse B</label><select id="q2"></select></div>
-  </div>
-  <div class="two">
-   <div><label>Stake (LKR)</label><input id="qStake" type="number" min="0" value="1" step=".01"></div>
-   <div><label>Quinella Dividend (per LKR 1)</label><input id="qDiv" type="number" min="0" value="0" step=".01"></div>
-  </div>
-  <div class="info">ⓘ Payout = Stake × Quinella Dividend</div>
- </section>
-
- <section class="bet summary" id="summary">
-  <h3>FULL TOTAL (ALL BETS)</h3>
-  <div class="summaryrow"><span>Total Investment (All Bets)</span><strong class="money" id="totalInvestment">LKR 0.00</strong></div>
-  <div class="summaryrow"><span>Total Estimated Payout</span><strong class="money green" id="totalPayout">LKR 0.00</strong></div>
-  <div style="padding:15px 12px">
-   <div style="font-size:16px;font-weight:bold">NET PROFIT / LOSS</div>
-   <div class="money" id="netProfit" style="font-size:25px;margin-top:10px">LKR 0.00</div>
-   <div class="small">(Payout − Investment)</div>
-  </div>
- </section>
-
- <section class="bet">
-  <h3>QUICK NOTES</h3>
-  <div class="notes">
-   <p>✓ Enter odds as fractional (15/2) or decimal (7.50).</p>
-   <p>✓ Forecast & Tricast use official dividends.</p>
-   <p>✓ Dividends are return per LKR 1 stake.</p>
-   <p>✓ NR is handled by the selected option.</p>
-   <p>✓ Rule 4 deduction is applied to odds.</p>
-   <p>✓ All totals update automatically.</p>
-  </div>
- </section>
+<section class="bet" id="multiples">
+<h3>★ MULTIPLES</h3>
+<label>Bet type</label>
+<div class="choices" id="multiTypes">
+<button class="active" data-n="1">Single</button><button data-n="2">Double</button><button data-n="3">Treble</button><button data-n="4">Quad</button><button data-n="5">Quint</button><button data-n="0">Acca</button>
 </div>
-
-<section class="panel" style="margin-top:12px">
- <div class="paneltitle">PAYMENT EXAMPLES</div>
- <div style="padding:12px" class="small">
-  EX WIN: Odds 6/1 × Investment LKR 100 = LKR 600 payout.<br>
-  F/C: Dividend 5.0 × Investment LKR 100 = LKR 500 payout.<br>
-  Both payments together = LKR 1,100.
- </div>
+<label>Stake per combination (LKR)</label><input id="mStake" type="number" min="0" value="0">
+<label>Horses to include</label><select id="mHorses" multiple size="5"></select>
+<p class="note">Phone එකේ multiple horses select කිරීමට options කිහිපයක් තෝරන්න. Acca එකේ සියලු තෝරාගත් horses භාවිතා වේ.</p>
 </section>
 
-<footer>© 2026 PASINDU HORSE RACING CALCULATOR • LKR EDITION</footer>
+<section class="bet" id="forecast">
+<h3>♞ FORECAST</h3>
+<div class="choices" id="fTypes"><button class="active" data-v="straight">Straight</button><button data-v="reverse">Reverse</button><button data-v="combination">Combination</button></div>
+<div class="grid">
+<div><label>First Horse</label><select id="f1"></select></div>
+<div><label>Second Horse</label><select id="f2"></select></div>
+<div><label>Stake LKR</label><input id="fStake" type="number" min="0" value="0"></div>
+<div><label>CSF Dividend</label><input id="fDiv" type="number" min="0" value="0" step=".01"></div>
+</div>
+<p class="note">Payout = Stake × official dividend.</p>
+</section>
+
+<section class="bet" id="tricast">
+<h3>♞ TRICAST</h3>
+<div class="choices" id="tTypes"><button class="active" data-v="straight">Straight</button><button data-v="combination">Combination</button></div>
+<label>First Horse</label><select id="t1"></select>
+<div class="grid">
+<div><label>Second Horse</label><select id="t2"></select></div>
+<div><label>Third Horse</label><select id="t3"></select></div>
+<div><label>Stake LKR</label><input id="tStake" type="number" min="0" value="0"></div>
+<div><label>Tricast Dividend</label><input id="tDiv" type="number" min="0" value="0" step=".01"></div>
+</div>
+<p class="note">Payout = Stake × official dividend.</p>
+</section>
+
+<section class="bet" id="quinella">
+<h3>◎ QUINELLA</h3>
+<div class="grid">
+<div><label>Horse A</label><select id="q1"></select></div>
+<div><label>Horse B</label><select id="q2"></select></div>
+<div><label>Stake LKR</label><input id="qStake" type="number" min="0" value="0"></div>
+<div><label>Quinella Dividend</label><input id="qDiv" type="number" min="0" value="0" step=".01"></div>
+</div>
+<p class="note">Payout = Stake × official dividend.</p>
+</section>
+
+<section class="bet total" id="summary">
+<div class="heading">FULL TOTAL (ALL BETS)</div>
+<div class="totalrow"><span>Total Investment</span><strong class="amount" id="investment">LKR 0.00</strong></div>
+<div class="totalrow"><span>FULL TOTAL PAYMENT</span><strong class="amount big" id="payment">LKR 0.00</strong></div>
+<div class="pad"><button class="red" style="width:100%" onclick="calculate()">CALCULATE ALL</button><p class="note">Profit / Loss මෙහි පෙන්වන්නේ නැහැ. Payment total එකට සියලුම bet payouts එකතු වේ.</p></div>
+</section>
+
+<section class="bet">
+<h3>QUICK NOTES</h3>
+<p class="note">✓ All currency values in LKR.</p>
+<p class="note">✓ Win payout follows your example: odds 6/1 × stake 100 = 600.</p>
+<p class="note">✓ Forecast, Tricast and Quinella require official dividends.</p>
+<p class="note">✓ Unchecked horses are excluded from Win/Place and Multiples.</p>
+<p class="note">✓ Press Reset All to clear your entries.</p>
+</section>
+</div>
+
+<div class="actions"><button onclick="resetAll()">↻ RESET ALL</button><button class="red" onclick="calculate()">CALCULATE ALL</button></div>
 </main>
+<footer>PASINDU HORSE RACING CALCULATOR • LKR</footer>
 
 <script>
 const $=id=>document.getElementById(id);
-const money=n=>'LKR '+(Number(n)||0).toLocaleString('en-LK',{minimumFractionDigits:2,maximumFractionDigits:2});
-let horseCount=10, multiType=1, forecastType='straight', tricastType='straight';
+const cash=n=>'LKR '+(Number(n)||0).toLocaleString('en-LK',{minimumFractionDigits:2,maximumFractionDigits:2});
+const number=id=>Math.max(0,Number($(id).value)||0);
+let multiN=1, fMode='straight', tMode='straight';
 
-function odds(raw){
- raw=String(raw||'').trim();
- if(!raw)return 0;
- if(raw.includes('/')){
-  let p=raw.split('/').map(Number);
-  return p.length===2&&p[1]>0?p[0]/p[1]:0;
- }
- let n=Number(raw);
- // Decimal odds 7.0 means fractional odds 6/1.
- return n>1?n-1:0;
+function makeRow(i){
+return `<tr>
+<td>${i}</td>
+<td><input id="use${i}" type="checkbox" checked></td>
+<td><input id="name${i}" value="Horse ${i}"></td>
+<td><input id="odds${i}" placeholder="e.g. 6/1"></td>
+<td><input id="win${i}" type="number" min="0" value="0"></td>
+<td><input id="place${i}" type="number" min="0" value="0"></td>
+<td><select id="rule${i}"><option value="0">0%</option><option value="5">5%</option><option value="10">10%</option><option value="20">20%</option><option value="30">30%</option><option value="40">40%</option><option value="50">50%</option></select></td>
+<td><input id="nr${i}" type="checkbox"></td>
+</tr>`;
 }
-function val(id){return Math.max(0,Number($(id).value)||0)}
-function rowHTML(i){
- return `<tr id="row${i}">
- <td>${i}</td>
- <td><input type="checkbox" id="use${i}" checked></td>
- <td class="name"><input id="name${i}" value="Horse ${i}"></td>
- <td><input id="odds${i}" value="${['15/2','7/1','9/2','11/2','6.5','10/1','8.5','20/1','16/1','25/1'][i-1]}" placeholder="15/2"></td>
- <td><input id="win${i}" type="number" min="0" step=".01" value="0"></td>
- <td><input id="place${i}" type="number" min="0" step=".01" value="0"></td>
- <td><select id="rule${i}"><option>0</option><option selected>10</option><option>15</option><option>20</option><option>25</option><option>30</option><option>40</option><option>50</option></select></td>
- <td><input type="checkbox" id="nr${i}"></td></tr>`;
+function frac(s){
+s=String(s||'').trim();
+if(!s)return 0;
+if(s.includes('/')){let p=s.split('/').map(Number);return p.length===2&&p[1]>0?p[0]/p[1]:0}
+let n=Number(s);return n>1?n-1:0;
 }
-function horse(i){
- let rule=Number($('rule'+i).value)||0;
- if($('ruleMode').value==='all')rule=10;
- return {i,odds:odds($('odds'+i).value),rule,win:val('win'+i),place:val('place'+i),use:$('use'+i).checked,nr:$('nr'+i).checked};
+function h(i){
+let o=frac($('odds'+i).value);
+let r=Number($('rule'+i).value);
+if($('ruleAll').value!=='0')r=Number($('ruleAll').value);
+return {i,o:o*(1-r/100),win:number('win'+i),place:number('place'+i),use:$('use'+i).checked,nr:$('nr'+i).checked};
 }
-function selected(){let a=[];for(let i=1;i<=horseCount;i++){let h=horse(i);if(h.use&&!h.nr&&h.odds>0)a.push(h)}return a}
-function refreshSelectors(){
- ['f1','f2','t1','t2','t3','q1','q2'].forEach(id=>{
-  let old=$(id).value;
-  $(id).innerHTML='<option value="">Select Horse</option>'+Array.from({length:horseCount},(_,i)=>`<option value="${i+1}">Horse ${i+1}</option>`).join('');
-  if(old)$(id).value=old;
- });
+function horseOptions(){
+let s='<option value="">Select Horse</option>';
+for(let i=1;i<=10;i++)s+=`<option value="${i}">Horse ${i}</option>`;
+return s;
 }
-function payoutDividend(stake,div){return stake*div}
-function calc(){
- let investment=0,payout=0;
- // Win and place bets on checked horses
- for(let i=1;i<=horseCount;i++){
-  let h=horse(i);
-  if(!h.use)continue;
-  investment+=h.win+h.place;
-  if(h.nr){
-   if($('nrMode').value==='refund')payout+=h.win+h.place;
-   continue;
-  }
-  let factor=1-h.rule/100;
-  let o=h.odds*factor;
-  // Requested EX WIN example: 6/1 × 100 = 600 (stake excluded).
-  payout+=h.win*o;
-  let terms=Number($('placeTerms').value)||5;
-  payout+=h.place*o/terms;
- }
- // Multiples estimate
- let hs=selected(), size=multiType===0?hs.length:multiType;
- let combos=0, multiPay=0, multiInv=0;
- if(size>0&&hs.length>=size){
-  combos=multiType===0?1:choose(hs.length,size);
-  multiInv=val('multiStake')*combos;
-  if(multiType===1){
-   multiPay=hs.reduce((s,h)=>s+val('multiStake')*h.odds*(1-h.rule/100),0);
-  }else{
-   let product=hs.slice(0,size).reduce((s,h)=>s*h.odds*(1-h.rule/100),1);
-   multiPay=val('multiStake')*product*combos;
-  }
-  if($('eachWay').value==='1')multiInv*=2;
-  investment+=multiInv;payout+=multiPay;
- }
- // Forecast
- let fs=val('fStake'), fd=val('fDiv');
- let f1=Number($('f1').value),f2=Number($('f2').value);
- let fcomb=forecastType==='straight'?1:forecastType==='reverse'?2:2;
- let finv=fs*fcomb, fpay=0;
- if(f1&&f2&&f1!==f2){fpay=payoutDividend(fs,fd)}
- investment+=finv;payout+=fpay;
- // Tricast
- let ts=val('tStake'),td=val('tDiv');
- let t1=Number($('t1').value),t2=Number($('t2').value),t3=Number($('t3').value);
- let tcomb=tricastType==='straight'?1:6;
- let tinv=ts*tcomb,tpay=0;
- if(t1&&t2&&t3&&new Set([t1,t2,t3]).size===3)tpay=payoutDividend(ts,td);
- investment+=tinv;payout+=tpay;
- // Quinella
- let qs=val('qStake'),qd=val('qDiv'),q1=Number($('q1').value),q2=Number($('q2').value);
- investment+=qs;
- let qpay=q1&&q2&&q1!==q2?payoutDividend(qs,qd):0;
- payout+=qpay;
- $('selectedCount').textContent=Array.from({length:horseCount},(_,i)=>horse(i+1)).filter(h=>h.use).length+' / '+horseCount;
- $('totalInvestment').textContent=money(investment);
- $('totalPayout').textContent=money(payout);
- let net=payout-investment;
- $('netProfit').textContent=money(net);
- $('netProfit').className='money '+(net>0?'green':net<0?'loss':'');
+function setup(){
+$('rows').innerHTML=Array.from({length:10},(_,i)=>makeRow(i+1)).join('');
+['f1','f2','t1','t2','t3','q1','q2'].forEach(id=>$(id).innerHTML=horseOptions());
+$('mHorses').innerHTML=Array.from({length:10},(_,i)=>`<option value="${i+1}">Horse ${i+1}</option>`).join('');
 }
-function choose(n,k){if(k>n)return 0;let r=1;for(let i=1;i<=k;i++)r=r*(n-i+1)/i;return Math.round(r)}
-function calculateAll(){calc();$('summary').scrollIntoView({behavior:'smooth',block:'center'})}
-function go(id,btn){document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');$(id).scrollIntoView({behavior:'smooth',block:'start'})}
+function chooseCount(n,k){if(k>n)return 0;let r=1;for(let i=1;i<=k;i++)r=r*(n-i+1)/i;return Math.round(r)}
+function chooseEvents(id,cb){
+$(id).querySelectorAll('button').forEach(b=>b.onclick=()=>{
+$(id).querySelectorAll('button').forEach(x=>x.classList.remove('active'));
+b.classList.add('active');cb(b.dataset.v);calculate();
+});
+}
+function selectedMultiples(){return [...$('mHorses').selectedOptions].map(x=>h(Number(x.value))).filter(x=>x.use&&!x.nr&&x.o>0)}
+function calculate(){
+let invest=0,pay=0;
+for(let i=1;i<=10;i++){
+let x=h(i);if(!x.use)continue;
+invest+=x.win+x.place;
+if(x.nr)continue;
+pay+=x.win*x.o;
+pay+=x.place*x.o/Number($('terms').value);
+}
+let hs=selectedMultiples();
+if(hs.length){
+let k=multiN===0?hs.length:multiN;
+if(hs.length>=k&&k>0){
+let combos=multiN===0?1:chooseCount(hs.length,k);
+invest+=number('mStake')*combos;
+if(multiN===1)pay+=hs.reduce((s,x)=>s+number('mStake')*x.o,0);
+else{
+let product=hs.slice(0,k).reduce((s,x)=>s*x.o,1);
+pay+=number('mStake')*product*combos;
+}
+}
+}
+let f1=Number($('f1').value),f2=Number($('f2').value);
+let fs=number('fStake'),fd=number('fDiv');
+let fc=fMode==='straight'?1:2;
+invest+=fs*fc;
+if(f1&&f2&&f1!==f2)pay+=fs*fd;
+let t1=Number($('t1').value),t2=Number($('t2').value),t3=Number($('t3').value);
+let ts=number('tStake'),td=number('tDiv'),tc=tMode==='straight'?1:6;
+invest+=ts*tc;
+if(t1&&t2&&t3&&new Set([t1,t2,t3]).size===3)pay+=ts*td;
+let q1=Number($('q1').value),q2=Number($('q2').value),qs=number('qStake'),qd=number('qDiv');
+invest+=qs;
+if(q1&&q2&&q1!==q2)pay+=qs*qd;
+$('investment').textContent=cash(invest);
+$('payment').textContent=cash(pay);
+}
+function clearHorses(){
+for(let i=1;i<=10;i++){
+$('use'+i).checked=false;$('nr'+i).checked=false;
+$('odds'+i).value='';$('win'+i).value=0;$('place'+i).value=0;
+}
+calculate();
+}
 function resetAll(){
- if(!confirm('Reset all calculator entries?'))return;
- for(let i=1;i<=horseCount;i++){
-  $('use'+i).checked=true;$('nr'+i).checked=false;
-  $('win'+i).value=0;$('place'+i).value=0;$('rule'+i).value='10';
-  $('name'+i).value='Horse '+i;
- }
- ['fDiv','tDiv','qDiv'].forEach(id=>$(id).value=0);
- ['fStake','tStake','qStake','multiStake'].forEach(id=>$(id).value=1);
- ['f1','f2','t1','t2','t3','q1','q2'].forEach(id=>$(id).value='');
- document.querySelectorAll('input[id^="odds"]').forEach(e=>e.value='');
- calc();
+if(!confirm('Reset all calculator entries?'))return;
+for(let i=1;i<=10;i++){
+$('use'+i).checked=true;$('nr'+i).checked=false;
+$('odds'+i).value='';$('win'+i).value=0;$('place'+i).value=0;
+$('rule'+i).value='0';$('name'+i).value='Horse '+i;
 }
-function clearHorseList(){
- for(let i=1;i<=horseCount;i++){
-  $('name'+i).value='Horse '+i;$('odds'+i).value='';
-  $('win'+i).value=0;$('place'+i).value=0;
-  $('use'+i).checked=false;$('nr'+i).checked=false;
- }
- calc();
+['f1','f2','t1','t2','t3','q1','q2'].forEach(id=>$(id).value='');
+['fStake','fDiv','tStake','tDiv','qStake','qDiv','mStake'].forEach(id=>$(id).value=0);
+[...$('mHorses').options].forEach(o=>o.selected=false);
+calculate();
 }
-function bindChoices(id,callback){
- $(id).querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{
-  $(id).querySelectorAll('button').forEach(x=>x.classList.remove('active'));
-  b.classList.add('active');callback(b.dataset.v);calc();
- }));
+function jump(id,btn){
+document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+btn.classList.add('active');$(id).scrollIntoView({behavior:'smooth',block:'start'});
 }
-$('horseRows').innerHTML=Array.from({length:horseCount},(_,i)=>rowHTML(i+1)).join('');
-refreshSelectors();
-bindChoices('multiChoices',v=>multiType=Number(v));
-bindChoices('forecastChoices',v=>forecastType=v);
-bindChoices('tricastChoices',v=>tricastType=v);
-document.addEventListener('input',e=>{if(e.target.matches('input,select'))calc()});
-document.addEventListener('change',e=>{if(e.target.matches('input,select'))calc()});
-calc();
+chooseEvents('multiTypes',v=>multiN=Number(v));
+chooseEvents('fTypes',v=>fMode=v);
+chooseEvents('tTypes',v=>tMode=v);
+document.addEventListener('input',e=>{if(e.target.matches('input,select'))calculate()});
+document.addEventListener('change',e=>{if(e.target.matches('input,select'))calculate()});
+setup();calculate();
 </script>
 </body>
 </html>
